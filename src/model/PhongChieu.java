@@ -5,7 +5,8 @@ public class PhongChieu {
     private int soLuongGhe;
     private String dinhDangPhong;
 
-    public PhongChieu() {}
+    public PhongChieu() {
+    }
 
     public PhongChieu(String maPhongChieu, int soLuongGhe, String dinhDangPhong) {
         this.maPhongChieu = maPhongChieu;
@@ -13,12 +14,27 @@ public class PhongChieu {
         this.dinhDangPhong = dinhDangPhong;
     }
 
-    public String getMaPhongChieu() { return maPhongChieu; }
-    public void setMaPhongChieu(String maPhongChieu) { this.maPhongChieu = maPhongChieu; }
+    public String getMaPhongChieu() {
+        return maPhongChieu;
+    }
 
-    public int getSoLuongGhe() { return soLuongGhe; }
-    public void setSoLuongGhe(int soLuongGhe) { this.soLuongGhe = soLuongGhe; }
+    public void setMaPhongChieu(String maPhongChieu) {
+        this.maPhongChieu = maPhongChieu;
+    }
 
-    public String getDinhDangPhong() { return dinhDangPhong; }
-    public void setDinhDangPhong(String dinhDangPhong) { this.dinhDangPhong = dinhDangPhong; }
+    public int getSoLuongGhe() {
+        return soLuongGhe;
+    }
+
+    public void setSoLuongGhe(int soLuongGhe) {
+        this.soLuongGhe = soLuongGhe;
+    }
+
+    public String getDinhDangPhong() {
+        return dinhDangPhong;
+    }
+
+    public void setDinhDangPhong(String dinhDangPhong) {
+        this.dinhDangPhong = dinhDangPhong;
+    }
 }

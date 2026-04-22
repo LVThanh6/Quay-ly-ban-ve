@@ -25,7 +25,7 @@ public class NhanVien {
     // ==========================================
     // CÁC HÀM GETTER VÀ SETTER
     // ==========================================
-    
+
     public String getMaNhanVien() {
         return maNhanVien;
     }

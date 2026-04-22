@@ -5,7 +5,8 @@ public class TrangThaiGhe {
     private SuatChieu suatChieu;
     private String trangThai; // "Trống", "Đang giữ", "Đã bán"
 
-    public TrangThaiGhe() {}
+    public TrangThaiGhe() {
+    }
 
     public TrangThaiGhe(Ghe ghe, SuatChieu suatChieu, String trangThai) {
         this.ghe = ghe;
@@ -13,14 +14,29 @@ public class TrangThaiGhe {
         this.trangThai = trangThai;
     }
 
-    public Ghe getGhe() { return ghe; }
-    public void setGhe(Ghe ghe) { this.ghe = ghe; }
+    public Ghe getGhe() {
+        return ghe;
+    }
 
-    public SuatChieu getSuatChieu() { return suatChieu; }
-    public void setSuatChieu(SuatChieu suatChieu) { this.suatChieu = suatChieu; }
+    public void setGhe(Ghe ghe) {
+        this.ghe = ghe;
+    }
 
-    public String getTrangThai() { return trangThai; }
-    public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
+    public SuatChieu getSuatChieu() {
+        return suatChieu;
+    }
+
+    public void setSuatChieu(SuatChieu suatChieu) {
+        this.suatChieu = suatChieu;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
 
     public void capNhatTrangThai(String trangThaiMoi) {
         this.trangThai = trangThaiMoi;

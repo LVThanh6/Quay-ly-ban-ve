@@ -10,7 +10,7 @@ public class PhieuDatVe {
     private Date ngayDat;
     private Date thoiGianGiuCho;
     private String trangThai; // "Chờ thanh toán", "Đã thanh toán", "Quá hạn", "Đã hủy"
-    
+
     private KhachHang khachHang;
     private NhanVien nhanVien;
     private List<ChiTietPhieuDat> chiTietPhieuDats;
@@ -19,7 +19,8 @@ public class PhieuDatVe {
         this.chiTietPhieuDats = new ArrayList<>();
     }
 
-    public PhieuDatVe(String maPhieuDat, int soLuongVe, Date ngayDat, Date thoiGianGiuCho, String trangThai, KhachHang khachHang, NhanVien nhanVien) {
+    public PhieuDatVe(String maPhieuDat, int soLuongVe, Date ngayDat, Date thoiGianGiuCho, String trangThai,
+            KhachHang khachHang, NhanVien nhanVien) {
         this.maPhieuDat = maPhieuDat;
         this.soLuongVe = soLuongVe;
         this.ngayDat = ngayDat;
@@ -31,46 +32,94 @@ public class PhieuDatVe {
     }
 
     // Getters and Setter
-    public String getMaPhieuDat() { return maPhieuDat; }
-    public void setMaPhieuDat(String maPhieuDat) { this.maPhieuDat = maPhieuDat; }
+    public String getMaPhieuDat() {
+        return maPhieuDat;
+    }
 
-    public int getSoLuongVe() { return soLuongVe; }
-    public void setSoLuongVe(int soLuongVe) { this.soLuongVe = soLuongVe; }
+    public void setMaPhieuDat(String maPhieuDat) {
+        this.maPhieuDat = maPhieuDat;
+    }
 
-    public Date getNgayDat() { return ngayDat; }
-    public void setNgayDat(Date ngayDat) { this.ngayDat = ngayDat; }
+    public int getSoLuongVe() {
+        return soLuongVe;
+    }
 
-    public Date getThoiGianGiuCho() { return thoiGianGiuCho; }
-    public void setThoiGianGiuCho(Date thoiGianGiuCho) { this.thoiGianGiuCho = thoiGianGiuCho; }
+    public void setSoLuongVe(int soLuongVe) {
+        this.soLuongVe = soLuongVe;
+    }
 
-    public String getTrangThai() { return trangThai; }
-    public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
+    public Date getNgayDat() {
+        return ngayDat;
+    }
 
-    public KhachHang getKhachHang() { return khachHang; }
-    public void setKhachHang(KhachHang khachHang) { this.khachHang = khachHang; }
+    public void setNgayDat(Date ngayDat) {
+        this.ngayDat = ngayDat;
+    }
 
-    public NhanVien getNhanVien() { return nhanVien; }
-    public void setNhanVien(NhanVien nhanVien) { this.nhanVien = nhanVien; }
+    public Date getThoiGianGiuCho() {
+        return thoiGianGiuCho;
+    }
 
-    public List<ChiTietPhieuDat> getChiTietPhieuDats() { return chiTietPhieuDats; }
-    public void setChiTietPhieuDats(List<ChiTietPhieuDat> chiTietPhieuDats) { this.chiTietPhieuDats = chiTietPhieuDats; }
+    public void setThoiGianGiuCho(Date thoiGianGiuCho) {
+        this.thoiGianGiuCho = thoiGianGiuCho;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public KhachHang getKhachHang() {
+        return khachHang;
+    }
+
+    public void setKhachHang(KhachHang khachHang) {
+        this.khachHang = khachHang;
+    }
+
+    public NhanVien getNhanVien() {
+        return nhanVien;
+    }
+
+    public void setNhanVien(NhanVien nhanVien) {
+        this.nhanVien = nhanVien;
+    }
+
+    public List<ChiTietPhieuDat> getChiTietPhieuDats() {
+        return chiTietPhieuDats;
+    }
+
+    public void setChiTietPhieuDats(List<ChiTietPhieuDat> chiTietPhieuDats) {
+        this.chiTietPhieuDats = chiTietPhieuDats;
+    }
 
     public void addChiTiet(ChiTietPhieuDat c) {
         this.chiTietPhieuDats.add(c);
         this.soLuongVe = this.chiTietPhieuDats.size();
     }
 
-    public void taoPhieuDat() { /* Logic */ }
-    
+    public void taoPhieuDat() {
+        /* Logic */ }
+
     public double tinhTongTienTamTinh() {
         double tong = 0;
-        for(ChiTietPhieuDat ct : chiTietPhieuDats) {
+        for (ChiTietPhieuDat ct : chiTietPhieuDats) {
             tong += ct.getGiaTamTinh();
         }
         return tong;
     }
-    
-    public void capNhatThongTinGhe() { /* Logic */ }
-    public boolean kiemTraThoiHan() { return new Date().before(thoiGianGiuCho); }
-    public void huyPhieuDat() { this.trangThai = "Đã hủy"; }
+
+    public void capNhatThongTinGhe() {
+        /* Logic */ }
+
+    public boolean kiemTraThoiHan() {
+        return new Date().before(thoiGianGiuCho);
+    }
+
+    public void huyPhieuDat() {
+        this.trangThai = "Đã hủy";
+    }
 }

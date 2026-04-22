@@ -7,7 +7,8 @@ public class KhachHang {
     private String hoTen;
     private Date ngaySinh;
 
-    public KhachHang() {}
+    public KhachHang() {
+    }
 
     public KhachHang(String sDT, String hoTen, Date ngaySinh) {
         this.sDT = sDT;
@@ -15,15 +16,33 @@ public class KhachHang {
         this.ngaySinh = ngaySinh;
     }
 
-    public String getsDT() { return sDT; }
-    public void setsDT(String sDT) { this.sDT = sDT; }
+    public String getsDT() {
+        return sDT;
+    }
 
-    public String getHoTen() { return hoTen; }
-    public void setHoTen(String hoTen) { this.hoTen = hoTen; }
+    public void setsDT(String sDT) {
+        this.sDT = sDT;
+    }
 
-    public Date getNgaySinh() { return ngaySinh; }
-    public void setNgaySinh(Date ngaySinh) { this.ngaySinh = ngaySinh; }
+    public String getHoTen() {
+        return hoTen;
+    }
 
-    public void dangKyThanhVien() { /* Logic đăng ký */ }
-    public void capNhatThongTin() { /* Logic cập nhật */ }
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
+    }
+
+    public Date getNgaySinh() {
+        return ngaySinh;
+    }
+
+    public void setNgaySinh(Date ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
+
+    public void dangKyThanhVien() {
+        /* Logic đăng ký */ }
+
+    public void capNhatThongTin() {
+        /* Logic cập nhật */ }
 }
