@@ -2,13 +2,23 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
+
+import controller.TrangThaiGhe_Controller;
+import dao.TrangThaiGhe_DAO;
+import model.TrangThaiGhe;
 
 public class FrmTrangThaiGhe extends JFrame {
     private JTextField txtMaGhe, txtMaSuatChieu, txtTrangThai;
     private JButton btnThem, btnSua, btnXoa, btnXoaTrang;
     private JTable table;
     private DefaultTableModel tableModel;
+    private TrangThaiGhe_Controller controller;
+    private TrangThaiGhe_DAO dao;
 
     public FrmTrangThaiGhe() {
         setTitle("Quản Lý Trạng Thái Ghế");
@@ -16,6 +26,9 @@ public class FrmTrangThaiGhe extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
+
+        dao = new TrangThaiGhe_DAO();
+        controller = new TrangThaiGhe_Controller(this);
 
         // --- Panel Nhập Liệu ---
         JPanel pnlInput = new JPanel(new GridLayout(3, 2, 10, 15));
@@ -45,6 +58,12 @@ public class FrmTrangThaiGhe extends JFrame {
         pnlButtons.add(btnXoa);
         pnlButtons.add(btnXoaTrang);
 
+        // Register controller
+        btnThem.addActionListener(controller);
+        btnSua.addActionListener(controller);
+        btnXoa.addActionListener(controller);
+        btnXoaTrang.addActionListener(controller);
+
         // --- Panel Nút Menu Điều Hướng ---
         JPanel pnlMenu = new MenuPanel(this);
 
@@ -63,14 +82,55 @@ public class FrmTrangThaiGhe extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Danh sách Trạng Thái Ghế"));
         
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.getSelectedRow();
+                if (row != -1) {
+                    txtMaGhe.setText(table.getValueAt(row, 0).toString());
+                    txtMaSuatChieu.setText(table.getValueAt(row, 1).toString());
+                    txtTrangThai.setText(table.getValueAt(row, 2).toString());
+                }
+            }
+        });
+
         JPanel pnlCenter = new JPanel(new BorderLayout());
         pnlCenter.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pnlCenter.add(scrollPane, BorderLayout.CENTER);
         
         add(pnlCenter, BorderLayout.CENTER);
+
+        // Load initial data
+        updateTable(dao.getAllTrangThai());
     }
 
+    public void updateTable(ArrayList<TrangThaiGhe> ds) {
+        tableModel.setRowCount(0);
+        for (TrangThaiGhe ttg : ds) {
+            tableModel.addRow(new Object[]{
+                ttg.getGhe().getMaGhe(),
+                ttg.getSuatChieu().getMaSuatChieu(),
+                ttg.getTrangThai()
+            });
+        }
+    }
+
+    // Getters and Setters
+    public JTextField getTxtMaGhe() { return txtMaGhe; }
+    public JTextField getTxtMaSuatChieu() { return txtMaSuatChieu; }
+    public JTextField getTxtTrangThai() { return txtTrangThai; }
+    public JButton getBtnThem() { return btnThem; }
+    public JButton getBtnSua() { return btnSua; }
+    public JButton getBtnXoa() { return btnXoa; }
+    public JButton getBtnXoaTrang() { return btnXoaTrang; }
+    public JTable getTable() { return table; }
+
     public static void main(String[] args) {
+        try {
+            ConnectDB.DBConnection.getInstance().connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         new FrmTrangThaiGhe().setVisible(true);
     }
 }

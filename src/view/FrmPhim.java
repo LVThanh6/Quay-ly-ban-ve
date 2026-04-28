@@ -2,13 +2,23 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
+
+import controller.Phim_Controller;
+import dao.Phim_DAO;
+import model.Phim;
 
 public class FrmPhim extends JFrame {
     private JTextField txtMaPhim, txtTenPhim, txtNgaySanXuat, txtDonViSanXuat, txtGioiHan, txtThoiLuong, txtLoaiPhim;
     private JButton btnThem, btnSua, btnXoa, btnXoaTrang;
     private JTable table;
     private DefaultTableModel tableModel;
+    private Phim_Controller controller;
+    private Phim_DAO dao;
 
     public FrmPhim() {
         setTitle("Quản Lý Phim");
@@ -16,6 +26,9 @@ public class FrmPhim extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
+
+        dao = new Phim_DAO();
+        controller = new Phim_Controller(this);
 
         // --- Panel Nhập Liệu ---
         JPanel pnlInput = new JPanel(new GridLayout(4, 4, 10, 15));
@@ -64,6 +77,12 @@ public class FrmPhim extends JFrame {
         pnlButtons.add(btnXoa);
         pnlButtons.add(btnXoaTrang);
 
+        // Register controller
+        btnThem.addActionListener(controller);
+        btnSua.addActionListener(controller);
+        btnXoa.addActionListener(controller);
+        btnXoaTrang.addActionListener(controller);
+
         // --- Panel Nút Menu Điều Hướng ---
         JPanel pnlMenu = new MenuPanel(this);
 
@@ -82,14 +101,53 @@ public class FrmPhim extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Danh sách Phim"));
         
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.getSelectedRow();
+                if (row != -1) {
+                    txtMaPhim.setText(table.getValueAt(row, 0).toString());
+                    txtTenPhim.setText(table.getValueAt(row, 1).toString());
+                    txtNgaySanXuat.setText(table.getValueAt(row, 2).toString());
+                    txtDonViSanXuat.setText(table.getValueAt(row, 3).toString());
+                    txtGioiHan.setText(table.getValueAt(row, 4).toString());
+                    txtThoiLuong.setText(table.getValueAt(row, 5).toString());
+                    txtLoaiPhim.setText(table.getValueAt(row, 6).toString());
+                }
+            }
+        });
+
         JPanel pnlCenter = new JPanel(new BorderLayout());
         pnlCenter.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pnlCenter.add(scrollPane, BorderLayout.CENTER);
         
         add(pnlCenter, BorderLayout.CENTER);
+
+        // Load initial data
+        updateTable(dao.getAllPhim());
+    }
+
+    public void updateTable(ArrayList<Phim> ds) {
+        tableModel.setRowCount(0);
+        for (Phim phim : ds) {
+            tableModel.addRow(new Object[]{
+                phim.getMaPhim(),
+                phim.getTenPhim(),
+                phim.getNgaySanXuat().toString(),
+                phim.getDonViSanXuat(),
+                phim.getGioiHan(),
+                phim.getThoiLuongPhim(),
+                phim.getLoaiPhim()
+            });
+        }
     }
 
     public static void main(String[] args) {
+        try {
+            ConnectDB.DBConnection.getInstance().connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         new FrmPhim().setVisible(true);
     }
 
