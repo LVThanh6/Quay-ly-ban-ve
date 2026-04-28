@@ -5,7 +5,11 @@ import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 
 public class FrmSuatChieu extends JFrame {
-    private JTextField txtMaSuatChieu, txtThoiGian, txtGiaVe, txtMaPhim, txtMaPhongChieu;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTextField txtMaSuatChieu, txtThoiGian, txtGiaVe, txtMaPhim, txtMaPhongChieu;
     private JButton btnThem, btnSua, btnXoa, btnXoaTrang;
     private JTable table;
     private DefaultTableModel tableModel;

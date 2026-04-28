@@ -92,4 +92,112 @@ public class FrmPhim extends JFrame {
     public static void main(String[] args) {
         new FrmPhim().setVisible(true);
     }
+
+	public JTextField getTxtMaPhim() {
+		return txtMaPhim;
+	}
+
+	public void setTxtMaPhim(JTextField txtMaPhim) {
+		this.txtMaPhim = txtMaPhim;
+	}
+
+	public JTextField getTxtTenPhim() {
+		return txtTenPhim;
+	}
+
+	public void setTxtTenPhim(JTextField txtTenPhim) {
+		this.txtTenPhim = txtTenPhim;
+	}
+
+	public JTextField getTxtNgaySanXuat() {
+		return txtNgaySanXuat;
+	}
+
+	public void setTxtNgaySanXuat(JTextField txtNgaySanXuat) {
+		this.txtNgaySanXuat = txtNgaySanXuat;
+	}
+
+	public JTextField getTxtDonViSanXuat() {
+		return txtDonViSanXuat;
+	}
+
+	public void setTxtDonViSanXuat(JTextField txtDonViSanXuat) {
+		this.txtDonViSanXuat = txtDonViSanXuat;
+	}
+
+	public JTextField getTxtGioiHan() {
+		return txtGioiHan;
+	}
+
+	public void setTxtGioiHan(JTextField txtGioiHan) {
+		this.txtGioiHan = txtGioiHan;
+	}
+
+	public JTextField getTxtThoiLuong() {
+		return txtThoiLuong;
+	}
+
+	public void setTxtThoiLuong(JTextField txtThoiLuong) {
+		this.txtThoiLuong = txtThoiLuong;
+	}
+
+	public JTextField getTxtLoaiPhim() {
+		return txtLoaiPhim;
+	}
+
+	public void setTxtLoaiPhim(JTextField txtLoaiPhim) {
+		this.txtLoaiPhim = txtLoaiPhim;
+	}
+
+	public JButton getBtnThem() {
+		return btnThem;
+	}
+
+	public void setBtnThem(JButton btnThem) {
+		this.btnThem = btnThem;
+	}
+
+	public JButton getBtnSua() {
+		return btnSua;
+	}
+
+	public void setBtnSua(JButton btnSua) {
+		this.btnSua = btnSua;
+	}
+
+	public JButton getBtnXoa() {
+		return btnXoa;
+	}
+
+	public void setBtnXoa(JButton btnXoa) {
+		this.btnXoa = btnXoa;
+	}
+
+	public JButton getBtnXoaTrang() {
+		return btnXoaTrang;
+	}
+
+	public void setBtnXoaTrang(JButton btnXoaTrang) {
+		this.btnXoaTrang = btnXoaTrang;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+
+	public DefaultTableModel getTableModel() {
+		return tableModel;
+	}
+
+	public void setTableModel(DefaultTableModel tableModel) {
+		this.tableModel = tableModel;
+	}
+    
+    
+    
+    
 }

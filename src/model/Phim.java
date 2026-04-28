@@ -1,11 +1,12 @@
 package model;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Phim {
     private String maPhim;
     private String tenPhim;
-    private LocalDate ngaySanXuat;
+    private Date ngaySanXuat;
     private String donViSanXuat;
     private int gioiHan;
     private int thoiLuongPhim; // in minutes
@@ -14,7 +15,7 @@ public class Phim {
     public Phim() {
     }
 
-    public Phim(String maPhim, String tenPhim, LocalDate ngaySanXuat, String donViSanXuat, int gioiHan,
+    public Phim(String maPhim, String tenPhim, Date ngaySanXuat, String donViSanXuat, int gioiHan,
             int thoiLuongPhim, String loaiPhim) {
         this.maPhim = maPhim;
         this.tenPhim = tenPhim;
@@ -42,11 +43,11 @@ public class Phim {
         this.tenPhim = tenPhim;
     }
 
-    public LocalDate getNgaySanXuat() {
+    public Date getNgaySanXuat() {
         return ngaySanXuat;
     }
 
-    public void setNgaySanXuat(LocalDate ngaySanXuat) {
+    public void setNgaySanXuat(Date ngaySanXuat) {
         this.ngaySanXuat = ngaySanXuat;
     }
 

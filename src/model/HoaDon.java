@@ -7,8 +7,6 @@ import java.util.ArrayList;
 public class HoaDon {
     private String maHoaDon;
     private Date thoiGianTao;
-    private double tongTien;
-    
     private NhanVien nhanVien;
     private KhachHang khachHang;
     private KhuyenMai khuyenMai; // có thể null nếu k áp dụng
@@ -75,7 +73,6 @@ public class HoaDon {
             tong = tong - (tong * khuyenMai.getHinhThucGiam());
         }
         
-        this.tongTien = tong;
         return tong;
     }
 }
