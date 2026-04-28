@@ -17,10 +17,10 @@ public class DBConnection {
 	
 	public void connect() {
         // Chú ý dấu ":" sau jdbc và thêm trustServerCertificate
-        String url = "jdbc:sqlserver://MSI\\SQLEXPRESS:55252;"
-    			+ "databaseName=QuanLyRapPhim;"
-    			+ "encrypt=true;"
-    			+ "trustServerCertificate=true;";
+		String url = "jdbc:sqlserver://localhost:1433;"
+	            + "databaseName=QuanLyRapPhim;"
+	            + "encrypt=true;"
+	            + "trustServerCertificate=true;";
         String user = "sa";
         String password = "sapassword";
         try {
