@@ -48,10 +48,10 @@ public class FrmTrangThaiGhe extends JFrame {
 
         // --- Panel Nút Chức Năng ---
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
-        btnThem = new JButton("Thêm");
-        btnSua = new JButton("Sửa");
-        btnXoa = new JButton("Xóa");
-        btnXoaTrang = new JButton("Xóa Trắng");
+        btnThem = new JButton("Thêm", IconUtils.getAddIcon());
+        btnSua = new JButton("Sửa", IconUtils.getEditIcon());
+        btnXoa = new JButton("Xóa", IconUtils.getDeleteIcon());
+        btnXoaTrang = new JButton("Xóa Trắng", IconUtils.getClearIcon());
         
         pnlButtons.add(btnThem);
         pnlButtons.add(btnSua);

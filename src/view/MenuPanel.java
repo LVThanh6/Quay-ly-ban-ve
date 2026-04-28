@@ -32,6 +32,7 @@ public class MenuPanel extends JPanel {
 
         // ==================== 1. MENU HỆ THỐNG ====================
         JMenu mnuHeThong = new JMenu("Hệ Thống");
+        mnuHeThong.setIcon(IconUtils.getSystemIcon());
         mnuHeThong.setMnemonic(KeyEvent.VK_H); // Phím tắt Alt + H
 
         JMenuItem mniDangXuat = new JMenuItem("Đăng xuất");
@@ -46,6 +47,7 @@ public class MenuPanel extends JPanel {
 
         // ==================== 2. MENU QUẢN LÝ PHIM VÀ RẠP ====================
         JMenu mnuQuayPhim = new JMenu("Quản Lý Phim & Rạp");
+        mnuQuayPhim.setIcon(IconUtils.getFilmIcon());
         mnuQuayPhim.setMnemonic(KeyEvent.VK_Q);
 
         JMenuItem mniPhim = new JMenuItem("Quản lý Phim...");
@@ -68,6 +70,7 @@ public class MenuPanel extends JPanel {
 
         // ==================== 3. MENU NGHIỆP VỤ BÁN HÀNG ====================
         JMenu mnuBanHang = new JMenu("Nghiệp Vụ Bán Hàng");
+        mnuBanHang.setIcon(IconUtils.getCartIcon());
         mnuBanHang.setMnemonic(KeyEvent.VK_N);
 
         JMenuItem mniVe = new JMenuItem("Bán Vé Mới...");
@@ -91,6 +94,7 @@ public class MenuPanel extends JPanel {
 
         // ==================== 4. MENU BẢNG DANH MỤC THỰC THỂ ====================
         JMenu mnuDanhMuc = new JMenu("Danh Mục Mở Rộng");
+        mnuDanhMuc.setIcon(IconUtils.getCategoryIcon());
         mnuDanhMuc.setMnemonic(KeyEvent.VK_D);
 
         JMenuItem mniSanPham = new JMenuItem("Danh mục Cơ bản (Abstract)...");
@@ -114,6 +118,7 @@ public class MenuPanel extends JPanel {
 
         // ==================== 5. MENU CÀI ĐẶT / CẤU HÌNH ====================
         JMenu mnuCaiDat = new JMenu("Cài Đặt");
+        mnuCaiDat.setIcon(IconUtils.getSettingsIcon());
 
         JMenuItem mniThue = new JMenuItem("Mức Thuế...");
         JMenuItem mniInHoaDon = new JMenuItem("Cấu hình in Hóa đơn...");
