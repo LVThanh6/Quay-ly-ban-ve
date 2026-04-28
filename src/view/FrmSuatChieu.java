@@ -2,7 +2,16 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
+
+import controller.SuatChieu_Controller;
+import dao.SuatChieu_DAO;
+import model.SuatChieu;
 
 public class FrmSuatChieu extends JFrame {
     /**
@@ -13,6 +22,8 @@ public class FrmSuatChieu extends JFrame {
     private JButton btnThem, btnSua, btnXoa, btnXoaTrang;
     private JTable table;
     private DefaultTableModel tableModel;
+    private SuatChieu_Controller controller;
+    private SuatChieu_DAO dao;
 
     public FrmSuatChieu() {
         setTitle("Quản Lý Suất Chiếu");
@@ -20,6 +31,9 @@ public class FrmSuatChieu extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
+
+        dao = new SuatChieu_DAO();
+        controller = new SuatChieu_Controller(this);
 
         // --- Panel Nhập Liệu ---
         JPanel pnlInput = new JPanel(new GridLayout(3, 4, 10, 15));
@@ -60,6 +74,12 @@ public class FrmSuatChieu extends JFrame {
         pnlButtons.add(btnXoa);
         pnlButtons.add(btnXoaTrang);
 
+        // Register controller
+        btnThem.addActionListener(controller);
+        btnSua.addActionListener(controller);
+        btnXoa.addActionListener(controller);
+        btnXoaTrang.addActionListener(controller);
+
         // --- Panel Nút Menu Điều Hướng ---
         JPanel pnlMenu = new MenuPanel(this);
 
@@ -78,14 +98,63 @@ public class FrmSuatChieu extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Danh sách Suất Chiếu"));
         
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.getSelectedRow();
+                if (row != -1) {
+                    txtMaSuatChieu.setText(table.getValueAt(row, 0).toString());
+                    txtThoiGian.setText(table.getValueAt(row, 1).toString());
+                    txtGiaVe.setText(table.getValueAt(row, 2).toString());
+                    txtMaPhim.setText(table.getValueAt(row, 3).toString());
+                    txtMaPhongChieu.setText(table.getValueAt(row, 4).toString());
+                }
+            }
+        });
+
         JPanel pnlCenter = new JPanel(new BorderLayout());
         pnlCenter.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pnlCenter.add(scrollPane, BorderLayout.CENTER);
         
         add(pnlCenter, BorderLayout.CENTER);
+
+        // Load initial data
+        updateTable(dao.getAllSuatChieu());
     }
 
+    public void updateTable(ArrayList<SuatChieu> ds) {
+        tableModel.setRowCount(0);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        for (SuatChieu sc : ds) {
+            String thoiGian = sc.getThoiGianKhoiChieu() != null ? sc.getThoiGianKhoiChieu().format(formatter) : "";
+            tableModel.addRow(new Object[]{
+                sc.getMaSuatChieu(),
+                thoiGian,
+                sc.getGiaVeCoBan(),
+                sc.getPhim().getMaPhim(),
+                sc.getPhongChieu().getMaPhongChieu()
+            });
+        }
+    }
+
+    // Getters and Setters
+    public JTextField getTxtMaSuatChieu() { return txtMaSuatChieu; }
+    public JTextField getTxtThoiGian() { return txtThoiGian; }
+    public JTextField getTxtGiaVe() { return txtGiaVe; }
+    public JTextField getTxtMaPhim() { return txtMaPhim; }
+    public JTextField getTxtMaPhongChieu() { return txtMaPhongChieu; }
+    public JButton getBtnThem() { return btnThem; }
+    public JButton getBtnSua() { return btnSua; }
+    public JButton getBtnXoa() { return btnXoa; }
+    public JButton getBtnXoaTrang() { return btnXoaTrang; }
+    public JTable getTable() { return table; }
+
     public static void main(String[] args) {
+        try {
+            ConnectDB.DBConnection.getInstance().connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         new FrmSuatChieu().setVisible(true);
     }
 }
