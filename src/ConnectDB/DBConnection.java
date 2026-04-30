@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 
 public class DBConnection {
-	private static Connection con =null;
+	private Connection con =null;
 	private static DBConnection instance = new DBConnection();
 	/**
 	 * @return the instance
@@ -45,7 +45,7 @@ public class DBConnection {
 	/**
 	 * @return the con
 	 */
-	public static Connection getCon() {
+	public Connection getCon() {
 		return con;
 	}
 
