@@ -14,26 +14,31 @@ import model.KhachHang;
 public class KhachHang_DAO {
 
 	public ArrayList<KhachHang> getAllKhachHang() {
-		ArrayList<KhachHang> dsKhachHang = new ArrayList<KhachHang>();
-		String sql = "SELECT * FROM KhachHang";
-		Connection con = DBConnection.getInstance().getCon();
-		
-		try (Statement statement = con.createStatement();
-			 ResultSet rs = statement.executeQuery(sql)){ // Viết như này để tự động đóng kết nối khu try hoạt động xong
-			
-			while (rs.next()) {
-			    // Dùng tên cột chính xác trong SQL Server của bạn
-			    String SDT = rs.getString("SDT"); 
-			    String hoTen = rs.getString("hoTen");
-			    Date ngaySinh = rs.getDate("ngaySinh");
-			    
-			    KhachHang kh = new KhachHang(SDT, hoTen, ngaySinh);
-			    dsKhachHang.add(kh);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dsKhachHang;
+	    ArrayList<KhachHang> dsKhachHang = new ArrayList<KhachHang>();
+	    String sql = "SELECT * FROM KhachHang";
+	    Connection con = DBConnection.getInstance().getCon();
+	    
+	    // Kiểm tra nếu con bị null thì thoát sớm để tránh NullPointerException
+	    if (con == null) {
+	        System.err.println("Lỗi: Kết nối Database trống (null). Vui lòng kiểm tra lại cấu hình kết nối!");
+	        return dsKhachHang; 
+	    }
+
+	    try (Statement statement = con.createStatement();
+	         ResultSet rs = statement.executeQuery(sql)) {
+	        
+	        while (rs.next()) {
+	            String SDT = rs.getString("SDT"); 
+	            String hoTen = rs.getString("hoTen");
+	            Date ngaySinh = rs.getDate("ngaySinh");
+	            
+	            KhachHang kh = new KhachHang(SDT, hoTen, ngaySinh);
+	            dsKhachHang.add(kh);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return dsKhachHang;
 	}
 
 	public boolean addKhachHang(KhachHang kh) {

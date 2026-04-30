@@ -20,7 +20,7 @@ public class NhanVien_DAO {
 			 ResultSet rs = statement.executeQuery(sql)) {
 			while (rs.next()) {
 				String maNhanVien = rs.getString("MaNhanVien");
-				String hoTen = rs.getString("TenNhanVien");
+				String hoTen = rs.getString("HoTen");
 				String sdt = rs.getString("SDT");
 				String matKhau = rs.getString("MatKhau");
 				Double luongCoBan = rs.getDouble("LuongCoBan");
@@ -36,7 +36,7 @@ public class NhanVien_DAO {
 	}
 	
 	public boolean addNhanVien(NhanVien nv) {
-		String sql = "INSERT INTO NhanVien (MaNhanVien, TenNhanVien, MatKhau, SDT, LuongCoBan, VaiTro) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO NhanVien (MaNhanVien, HoTen, MatKhau, SDT, LuongCoBan, VaiTro) VALUES (?, ?, ?, ?, ?, ?)";
 		Connection con = DBConnection.getInstance().getCon();
 		try(PreparedStatement stmt = con.prepareStatement(sql)) {
 			stmt.setString(1, nv.getMaNhanVien());
@@ -54,7 +54,7 @@ public class NhanVien_DAO {
 	}
 	
 	public boolean updateNhanVien(NhanVien nv) {
-		String sql = "UPDATE NhanVien SET TenNhanVien = ?, MatKhau = ?, SDT = ?, LuongCoBan = ?, VaiTro = ? WHERE MaNhanVien = ?";
+		String sql = "UPDATE NhanVien SET HoTen = ?, MatKhau = ?, SDT = ?, LuongCoBan = ?, VaiTro = ? WHERE MaNhanVien = ?";
 		Connection con = DBConnection.getInstance().getCon();
 		try(PreparedStatement stmt = con.prepareStatement(sql)) {
 			stmt.setString(1, nv.getHoTen());
