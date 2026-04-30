@@ -48,7 +48,11 @@ public class NhanVien_Controller implements ActionListener {
 
 		try {
 			double luongCoBan = Double.parseDouble(luongCoBanStr);
-			NhanVien nv = new NhanVien(maNV, hoTen, matKhau, sdt, luongCoBan, vaiTro);
+			model.ChucVu chucVuEnum = model.ChucVu.NHAN_VIEN;
+			try {
+				chucVuEnum = model.ChucVu.valueOf(vaiTro.toUpperCase());
+			} catch(Exception ex) {}
+			NhanVien nv = new NhanVien(maNV, hoTen, matKhau, sdt, luongCoBan, chucVuEnum);
 			
 			if (dao.addNhanVien(nv)) {
 				view.updateTable(dao.getAllNhanVien());
@@ -77,7 +81,11 @@ public class NhanVien_Controller implements ActionListener {
 
 		try {
 			double luongCoBan = Double.parseDouble(luongCoBanStr);
-			NhanVien nv = new NhanVien(maNV, hoTen, matKhau, sdt, luongCoBan, vaiTro);
+			model.ChucVu chucVuEnum = model.ChucVu.NHAN_VIEN;
+			try {
+				chucVuEnum = model.ChucVu.valueOf(vaiTro.toUpperCase());
+			} catch(Exception ex) {}
+			NhanVien nv = new NhanVien(maNV, hoTen, matKhau, sdt, luongCoBan, chucVuEnum);
 			
 			if (dao.updateNhanVien(nv)) {
 				view.updateTable(dao.getAllNhanVien());

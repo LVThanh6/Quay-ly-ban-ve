@@ -6,14 +6,14 @@ public class NhanVien {
     private String matKhau;
     private String sdt;
     private double luongCoBan;
-    private String vaiTro;
+    private ChucVu vaiTro;
 
     // Hàm khởi tạo rỗng (Mặc định)
     public NhanVien() {
     }
 
     // Hàm khởi tạo đầy đủ tham số
-    public NhanVien(String maNhanVien, String hoTen, String matKhau, String sdt, double luongCoBan, String vaiTro) {
+    public NhanVien(String maNhanVien, String hoTen, String matKhau, String sdt, double luongCoBan, ChucVu vaiTro) {
         this.maNhanVien = maNhanVien;
         this.hoTen = hoTen;
         this.matKhau = matKhau;
@@ -66,11 +66,11 @@ public class NhanVien {
         this.luongCoBan = luongCoBan;
     }
 
-    public String getVaiTro() {
+    public ChucVu getVaiTro() {
         return vaiTro;
     }
 
-    public void setVaiTro(String vaiTro) {
+    public void setVaiTro(ChucVu vaiTro) {
         this.vaiTro = vaiTro;
     }
 
