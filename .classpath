@@ -3,6 +3,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-24"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="lib"/>
+	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="lib" path="d:/eclipse-workspace/Quay-ly-ban-ve/lib/mssql-jdbc-13.4.0.jre11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
