@@ -17,7 +17,7 @@ public class DBConnection {
 	
 	public void connect() {
         // Chú ý dấu ":" sau jdbc và thêm trustServerCertificate
-        String url = "jdbc:sqlserver://MSI\\SQLEXPRESS:1433;"
+        String url = "jdbc:sqlserver://MSI\\SQLEXPRESS:55252;"
     			+ "databaseName=QuanLyRapPhim;"
     			+ "encrypt=true;"
     			+ "trustServerCertificate=true;";
