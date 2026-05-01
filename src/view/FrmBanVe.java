@@ -42,6 +42,7 @@ public class FrmBanVe extends JFrame {
     // State
     private String selectedPhim = "";
     private final Set<String> selectedSeats = new LinkedHashSet<>();
+    private final Set<String> bookedSeats = new LinkedHashSet<>(); // Thêm danh sách ghế đã đặt
     private final Map<String, JToggleButton> seatButtons = new LinkedHashMap<>();
 
     // Row labels (A-E); last row = VIP
@@ -221,6 +222,7 @@ public class FrmBanVe extends JFrame {
                         : "Ghế thường – " + (int) PRICE_NORMAL + " VND");
 
                 btn.addItemListener(ev -> {
+                    if (bookedSeats.contains(seatId)) return; // Bỏ qua nếu ghế đã được đặt
                     if (btn.isSelected()) {
                         btn.setBackground(new Color(229, 9, 20));
                         btn.setForeground(Color.BLACK);
@@ -331,13 +333,15 @@ public class FrmBanVe extends JFrame {
 
     // ── Order Dialog ─────────────────────────────────────────
     private void showOrderDialog() {
+        Window parentWindow = SwingUtilities.getWindowAncestor(pnlSeats);
+        
         if (selectedPhim.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(parentWindow,
                     "Vui lòng chọn một bộ phim!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (selectedSeats.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(parentWindow,
                     "Vui lòng chọn ít nhất 1 ghế!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -345,9 +349,9 @@ public class FrmBanVe extends JFrame {
         double total = calcTotal();
 
         // ── Build JDialog ──────────────────────────────────
-        JDialog dlg = new JDialog(this, "Chi tiết đơn hàng", true);
+        JDialog dlg = new JDialog(parentWindow, "Chi tiết đơn hàng", Dialog.ModalityType.APPLICATION_MODAL);
         dlg.setSize(460, 380);
-        dlg.setLocationRelativeTo(this);
+        dlg.setLocationRelativeTo(parentWindow);
         dlg.setResizable(false);
 
         JPanel content = new JPanel(new BorderLayout(0, 0));
@@ -382,7 +386,7 @@ public class FrmBanVe extends JFrame {
 
         String[][] rows2 = {
                 { "🎬  Tên phim:", selectedPhim },
-                { "🪑  Ghế đã chọn:", String.join(", ", selectedSeats) },
+                { "🪑  Ghế đã chọn:", "<html><div style='width: 220px;'>" + String.join(", ", selectedSeats) + "</div></html>" },
                 { "🎫  Số lượng vé:", String.valueOf(selectedSeats.size()) },
                 { "💰  Tổng tiền:", String.format("%,.0f VND", total) }
         };
@@ -428,7 +432,8 @@ public class FrmBanVe extends JFrame {
         btnPay.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnPay.addActionListener(e -> {
             dlg.dispose();
-            JOptionPane.showMessageDialog(this,
+            bookedSeats.addAll(selectedSeats); // Lưu các ghế đã đặt
+            JOptionPane.showMessageDialog(parentWindow,
                     "✅  Thanh toán thành công!\nCảm ơn bạn đã đặt vé tại CGV Cinema.",
                     "Thành công", JOptionPane.INFORMATION_MESSAGE);
             resetState();
@@ -484,10 +489,20 @@ public class FrmBanVe extends JFrame {
         lblPoster.setIcon(null);
         lblPoster.setText("Chọn phim để xem poster");
         for (Map.Entry<String, JToggleButton> en : seatButtons.entrySet()) {
+            String seatId = en.getKey();
             JToggleButton btn = en.getValue();
-            btn.setSelected(false);
-            boolean vip = en.getKey().startsWith("E");
-            setSeatDefault(btn, vip);
+            boolean vip = seatId.startsWith("E");
+            
+            if (bookedSeats.contains(seatId)) {
+                btn.setSelected(true);
+                btn.setBackground(new Color(140, 140, 150)); // Màu ghế đã đặt
+                btn.setForeground(Color.WHITE);
+                btn.setEnabled(false); // Vô hiệu hóa ghế đã đặt
+            } else {
+                btn.setSelected(false);
+                btn.setEnabled(true);
+                setSeatDefault(btn, vip);
+            }
         }
         refreshSummary();
     }
