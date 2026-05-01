@@ -41,7 +41,7 @@ public abstract class FrmBaseManager extends JFrame {
     private void initBaseUI(String titleText, String[] columnNames) {
         // Header
         pnlHeader = new JPanel(new BorderLayout());
-        pnlHeader.setOpaque(false);
+        pnlHeader.setOpaque(true);
         pnlHeader.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel lblTitle = new JLabel(titleText);
@@ -51,16 +51,16 @@ public abstract class FrmBaseManager extends JFrame {
 
         // Input Panel (To be filled by subclasses)
         pnlInput = new JPanel();
-        pnlInput.setOpaque(false);
+        pnlInput.setOpaque(true);
 
         JPanel pnlInputWrapper = new JPanel(new BorderLayout());
-        pnlInputWrapper.setOpaque(false);
+        pnlInputWrapper.setOpaque(true);
         pnlInputWrapper.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
         pnlInputWrapper.add(pnlInput, BorderLayout.CENTER);
 
         // Buttons
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 0));
-        pnlButtons.setOpaque(false);
+        pnlButtons.setOpaque(true);
 
         btnThem = createButton("Thêm", new Color(229, 9, 20)); // Netflix Red
         btnSua = createButton("Cập Nhật", new Color(60, 60, 60));
@@ -76,14 +76,14 @@ public abstract class FrmBaseManager extends JFrame {
 
         // Combine Top
         JPanel pnlTop = new JPanel(new BorderLayout());
-        pnlTop.setOpaque(false);
+        pnlTop.setOpaque(true);
         pnlTop.add(pnlHeader, BorderLayout.NORTH);
         pnlTop.add(pnlInputWrapper, BorderLayout.CENTER);
         add(pnlTop, BorderLayout.NORTH);
 
         // Table
         JPanel pnlTableWrapper = new JPanel(new BorderLayout());
-        pnlTableWrapper.setOpaque(false);
+        pnlTableWrapper.setOpaque(true);
         pnlTableWrapper.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
 
         tableModel = new DefaultTableModel(columnNames, 0);
@@ -102,7 +102,7 @@ public abstract class FrmBaseManager extends JFrame {
 
     protected JTextField createTextField(String placeholder) {
         JPanel pnlWrapper = new JPanel(new BorderLayout());
-        pnlWrapper.setOpaque(false);
+        pnlWrapper.setOpaque(true);
         JLabel lbl = new JLabel(placeholder);
         lbl.setForeground(new Color(80, 80, 80));
         lbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
@@ -119,7 +119,7 @@ public abstract class FrmBaseManager extends JFrame {
     private JButton createButton(String text, Color bgColor) {
         JButton btn = new JButton(text);
         btn.setBackground(bgColor);
-        btn.setForeground(Color.WHITE);
+        btn.setForeground(Color.BLACK);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btn.setFocusPainted(false);
         btn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -146,4 +146,5 @@ public abstract class FrmBaseManager extends JFrame {
     public JTable getTable() {
         return table;
     }
+
 }

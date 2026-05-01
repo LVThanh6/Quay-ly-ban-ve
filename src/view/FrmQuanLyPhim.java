@@ -38,8 +38,9 @@ public class FrmQuanLyPhim extends JFrame {
         this.controller = controller;
         this.phimDAO = new Phim_DAO();
         setTitle("Quản lý Danh Mục Phim");
-        
-        // Cấu hình cơ bản (Chỉ dùng khi test độc lập, khi nhúng vào MainGUI thì không dùng đến JFrame này)
+
+        // Cấu hình cơ bản (Chỉ dùng khi test độc lập, khi nhúng vào MainGUI thì không
+        // dùng đến JFrame này)
         setSize(900, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -52,9 +53,9 @@ public class FrmQuanLyPhim extends JFrame {
     private void initUI() {
         // Header Panel
         JPanel pnlHeader = new JPanel(new BorderLayout());
-        pnlHeader.setOpaque(false);
+        pnlHeader.setOpaque(true);
         pnlHeader.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
+
         JLabel lblTitle = new JLabel("Danh mục Phim");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
         lblTitle.setForeground(new Color(30, 30, 30));
@@ -62,12 +63,12 @@ public class FrmQuanLyPhim extends JFrame {
 
         // Input Panel
         JPanel pnlInputWrapper = new JPanel(new BorderLayout());
-        pnlInputWrapper.setOpaque(false);
+        pnlInputWrapper.setOpaque(true);
         pnlInputWrapper.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
 
         JPanel pnlInput = new JPanel(new GridLayout(2, 4, 15, 15));
-        pnlInput.setOpaque(false);
-        
+        pnlInput.setOpaque(true);
+
         txtMaPhim = createTextField("Mã Phim", pnlInput);
         txtTenPhim = createTextField("Tên Phim", pnlInput);
         txtLoaiPhim = createTextField("Loại Phim", pnlInput);
@@ -75,13 +76,13 @@ public class FrmQuanLyPhim extends JFrame {
         txtGioiHanTuoi = createTextField("Giới Hạn Tuổi", pnlInput);
         txtThoiLuong = createTextField("Thời Lượng (phút)", pnlInput);
         txtNgaySX = createTextField("Ngày SX (yyyy-mm-dd)", pnlInput);
-        
+
         pnlInputWrapper.add(pnlInput, BorderLayout.CENTER);
 
         // Nút bấm
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 0));
-        pnlButtons.setOpaque(false);
-        
+        pnlButtons.setOpaque(true);
+
         btnThem = createButton("Thêm Phim", new Color(229, 9, 20)); // Red Netflix
         btnSua = createButton("Cập Nhật", new Color(70, 130, 180));
         btnXoa = createButton("Xóa", new Color(180, 60, 60));
@@ -96,28 +97,29 @@ public class FrmQuanLyPhim extends JFrame {
 
         // Gộp Top
         JPanel pnlTop = new JPanel(new BorderLayout());
-        pnlTop.setOpaque(false);
+        pnlTop.setOpaque(true);
         pnlTop.add(pnlHeader, BorderLayout.NORTH);
         pnlTop.add(pnlInputWrapper, BorderLayout.CENTER);
         add(pnlTop, BorderLayout.NORTH);
 
         // Table Panel
         JPanel pnlTableWrapper = new JPanel(new BorderLayout());
-        pnlTableWrapper.setOpaque(false);
+        pnlTableWrapper.setOpaque(true);
         pnlTableWrapper.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
 
-        String[] cols = {"Mã Phim", "Tên Phim & Thể Loại", "Ngày Khởi Chiếu", "Thời Lượng", "Đơn Vị SX", "Giới Hạn Tuổi"};
+        String[] cols = { "Mã Phim", "Tên Phim & Thể Loại", "Ngày Khởi Chiếu", "Thời Lượng", "Đơn Vị SX",
+                "Giới Hạn Tuổi" };
         modelPhim = new DefaultTableModel(cols, 0);
         tblPhim = new JTable(modelPhim);
         tblPhim.setRowHeight(40);
         tblPhim.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         tblPhim.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tblPhim.setShowVerticalLines(false);
-        
+
         JScrollPane scroll = new JScrollPane(tblPhim);
         scroll.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
         pnlTableWrapper.add(scroll, BorderLayout.CENTER);
-        
+
         add(pnlTableWrapper, BorderLayout.CENTER);
 
         // Sự kiện
@@ -126,14 +128,14 @@ public class FrmQuanLyPhim extends JFrame {
 
     private JTextField createTextField(String placeholder, JPanel parent) {
         JPanel pnlWrapper = new JPanel(new BorderLayout());
-        pnlWrapper.setOpaque(false);
+        pnlWrapper.setOpaque(true);
         JLabel lbl = new JLabel(placeholder);
         lbl.setForeground(new Color(80, 80, 80));
         lbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        
+
         JTextField txt = new JTextField();
         txt.setPreferredSize(new Dimension(150, 35));
-        
+
         pnlWrapper.add(lbl, BorderLayout.NORTH);
         pnlWrapper.add(txt, BorderLayout.CENTER);
         parent.add(pnlWrapper);
@@ -143,7 +145,7 @@ public class FrmQuanLyPhim extends JFrame {
     private JButton createButton(String text, Color bgColor) {
         JButton btn = new JButton(text);
         btn.setBackground(bgColor);
-        btn.setForeground(Color.WHITE);
+        btn.setForeground(Color.BLACK);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btn.setFocusPainted(false);
         btn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -157,7 +159,8 @@ public class FrmQuanLyPhim extends JFrame {
                 txtMaPhim.setText(modelPhim.getValueAt(row, 0).toString());
                 String[] tenLoai = modelPhim.getValueAt(row, 1).toString().split(" - ");
                 txtTenPhim.setText(tenLoai[0]);
-                if (tenLoai.length > 1) txtLoaiPhim.setText(tenLoai[1]);
+                if (tenLoai.length > 1)
+                    txtLoaiPhim.setText(tenLoai[1]);
                 txtNgaySX.setText(modelPhim.getValueAt(row, 2).toString());
                 txtThoiLuong.setText(modelPhim.getValueAt(row, 3).toString());
                 txtDonViSX.setText(modelPhim.getValueAt(row, 4).toString());
@@ -167,7 +170,7 @@ public class FrmQuanLyPhim extends JFrame {
         });
 
         btnXoaRong.addActionListener(e -> xoaRong());
-        
+
         btnThem.addActionListener(e -> {
             try {
                 Phim p = new Phim(txtMaPhim.getText(), txtTenPhim.getText(), Date.valueOf(txtNgaySX.getText()),
@@ -228,9 +231,9 @@ public class FrmQuanLyPhim extends JFrame {
         List<Phim> dsPhim = controller.xemLichChieu();
         modelPhim.setRowCount(0);
         for (Phim p : dsPhim) {
-            modelPhim.addRow(new Object[]{
-                p.getMaPhim(), p.getTenPhim() + " - " + p.getLoaiPhim(), p.getNgaySanXuat(),
-                p.getThoiLuongPhim(), p.getDonViSanXuat(), p.getGioiHan()
+            modelPhim.addRow(new Object[] {
+                    p.getMaPhim(), p.getTenPhim() + " - " + p.getLoaiPhim(), p.getNgaySanXuat(),
+                    p.getThoiLuongPhim(), p.getDonViSanXuat(), p.getGioiHan()
             });
         }
     }

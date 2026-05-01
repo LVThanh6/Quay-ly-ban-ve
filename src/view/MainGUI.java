@@ -171,7 +171,7 @@ public class MainGUI extends JFrame {
     private JButton createMenuButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        btn.setForeground(new Color(50, 50, 50));
+        btn.setForeground(Color.BLACK);
         btn.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 20));
         btn.setHorizontalAlignment(SwingConstants.LEFT);
         btn.setFocusPainted(false);
@@ -181,12 +181,12 @@ public class MainGUI extends JFrame {
         btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn.setBackground(new Color(230, 230, 230));
-                btn.setForeground(new Color(229, 9, 20));
+                btn.setForeground(Color.BLACK);
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn.setBackground(null);
-                btn.setForeground(new Color(50, 50, 50));
+                btn.setForeground(Color.BLACK);
             }
         });
 
