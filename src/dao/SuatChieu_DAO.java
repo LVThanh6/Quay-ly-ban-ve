@@ -19,6 +19,7 @@ public class SuatChieu_DAO {
 		ArrayList<SuatChieu> dsSuatChieu = new ArrayList<SuatChieu>();
 		String sql = "SELECT * FROM SuatChieu";
 		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return dsSuatChieu;
 		
 		try (Statement statement = con.createStatement();
 			 ResultSet rs = statement.executeQuery(sql)) {
@@ -35,6 +36,36 @@ public class SuatChieu_DAO {
 				
 				SuatChieu sc = new SuatChieu(maSC, thoiGian, giaVe, p, pc);
 				dsSuatChieu.add(sc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsSuatChieu;
+	}
+	
+	public ArrayList<SuatChieu> getSuatChieuByPhim(String maPhimParam) {
+		ArrayList<SuatChieu> dsSuatChieu = new ArrayList<SuatChieu>();
+		String sql = "SELECT * FROM SuatChieu WHERE MaPhim = ?";
+		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return dsSuatChieu;
+		
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			stmt.setString(1, maPhimParam);
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					String maSC = rs.getString("MaSuatChieu");
+					Timestamp ts = rs.getTimestamp("ThoiGianKhoiChieu");
+					LocalDateTime thoiGian = ts != null ? ts.toLocalDateTime() : null;
+					double giaVe = rs.getDouble("GiaVeCoBan");
+					String maPhim = rs.getString("MaPhim");
+					String maPhong = rs.getString("MaPhongChieu");
+					
+					Phim p = new Phim(); p.setMaPhim(maPhim);
+					PhongChieu pc = new PhongChieu(); pc.setMaPhongChieu(maPhong);
+					
+					SuatChieu sc = new SuatChieu(maSC, thoiGian, giaVe, p, pc);
+					dsSuatChieu.add(sc);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -87,5 +118,45 @@ public class SuatChieu_DAO {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	/**
+	 * Kiểm tra va chạm lịch chiếu (bao gồm thời gian phim + 15p nghỉ)
+	 * @param gapPhut Thời gian nghỉ giữa các suất chiếu (VD: 15)
+	 */
+	public boolean kiemTraVaChamLich(String maPhong, LocalDateTime startNew, int durationNew, String excludeMaSC, int gapPhut) {
+		LocalDateTime endNew = startNew.plusMinutes(durationNew + gapPhut);
+		
+		String sql = "SELECT sc.ThoiGianKhoiChieu, p.ThoiLuongPhim " +
+		             "FROM SuatChieu sc " +
+		             "JOIN Phim p ON sc.MaPhim = p.MaPhim " +
+		             "WHERE sc.MaPhongChieu = ?";
+		
+		if (excludeMaSC != null && !excludeMaSC.isEmpty()) {
+			sql += " AND sc.MaSuatChieu != ?";
+		}
+		
+		Connection con = DBConnection.getInstance().getCon();
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			stmt.setString(1, maPhong);
+			if (excludeMaSC != null && !excludeMaSC.isEmpty()) {
+				stmt.setString(2, excludeMaSC);
+			}
+			
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					LocalDateTime startOld = rs.getTimestamp("ThoiGianKhoiChieu").toLocalDateTime();
+					int durationOld = rs.getInt("ThoiLuongPhim");
+					LocalDateTime endOld = startOld.plusMinutes(durationOld + gapPhut);
+					
+					// Kiểm tra giao nhau: (StartA < EndB) AND (EndA > StartB)
+					if (startNew.isBefore(endOld) && endNew.isAfter(startOld)) {
+						return true; // Có va chạm
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

@@ -37,9 +37,11 @@ public class FrmComboBapNuoc extends FrmBaseManager {
     public void updateTable(List<ComboBapNuoc> list) {
         tableModel.setRowCount(0);
         for (ComboBapNuoc item : list) {
-            // FIXME: Ánh xạ đúng thuộc tính model vào mảng Object.
-            Object[] row = new Object[3];
-            for (int i=0; i<3; i++) row[i] = item.toString(); 
+            Object[] row = new Object[] {
+                item.getMaSanPham(),
+                item.getTenSanPham(),
+                item.getGiaBanCoBan()
+            };
             tableModel.addRow(row);
         }
     }

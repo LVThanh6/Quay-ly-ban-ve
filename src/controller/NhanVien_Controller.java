@@ -17,6 +17,7 @@ public class NhanVien_Controller implements ActionListener {
 	public NhanVien_Controller(FrmNhanVien view) {
 		this.view = view;
 		this.dao = new NhanVien_DAO();
+		this.view.updateTable(this.dao.getAllNhanVien());
 	}
 
 	@Override
@@ -48,6 +49,10 @@ public class NhanVien_Controller implements ActionListener {
 
 		try {
 			double luongCoBan = Double.parseDouble(luongCoBanStr);
+			if (luongCoBan < 0) {
+				JOptionPane.showMessageDialog(view, "Lương cơ bản không được âm!");
+				return;
+			}
 			model.ChucVu chucVuEnum = model.ChucVu.NHAN_VIEN;
 			try {
 				chucVuEnum = model.ChucVu.valueOf(vaiTro.toUpperCase());
@@ -81,6 +86,10 @@ public class NhanVien_Controller implements ActionListener {
 
 		try {
 			double luongCoBan = Double.parseDouble(luongCoBanStr);
+			if (luongCoBan < 0) {
+				JOptionPane.showMessageDialog(view, "Lương cơ bản không được âm!");
+				return;
+			}
 			model.ChucVu chucVuEnum = model.ChucVu.NHAN_VIEN;
 			try {
 				chucVuEnum = model.ChucVu.valueOf(vaiTro.toUpperCase());

@@ -45,7 +45,7 @@ public class PhieuDatVe {
     }
 
     public void setSoLuongVe(int soLuongVe) {
-        this.soLuongVe = soLuongVe;
+        this.soLuongVe = Math.max(0, soLuongVe);
     }
 
     public Date getNgayDat() {

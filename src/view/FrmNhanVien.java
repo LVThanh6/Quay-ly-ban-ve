@@ -46,9 +46,14 @@ public class FrmNhanVien extends FrmBaseManager {
     public void updateTable(List<NhanVien> list) {
         tableModel.setRowCount(0);
         for (NhanVien item : list) {
-            // FIXME: Ánh xạ đúng thuộc tính model vào mảng Object.
-            Object[] row = new Object[6];
-            for (int i=0; i<6; i++) row[i] = item.toString(); 
+            Object[] row = new Object[] {
+                item.getMaNhanVien(),
+                item.getHoTen(),
+                item.getMatKhau(),
+                item.getSdt(),
+                item.getLuongCoBan(),
+                item.getVaiTro() != null ? item.getVaiTro().name() : ""
+            };
             tableModel.addRow(row);
         }
     }

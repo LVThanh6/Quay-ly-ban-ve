@@ -15,6 +15,7 @@ public class Thue_Controller implements ActionListener {
 	public Thue_Controller(FrmThue view) {
 		this.view = view;
 		this.dao = new Thue_DAO();
+		this.view.updateTable(this.dao.getAllThue());
 	}
 
 	@Override

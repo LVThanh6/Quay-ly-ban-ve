@@ -15,6 +15,7 @@ public class PhongChieu_DAO {
 		ArrayList<PhongChieu> dsPhongChieu = new ArrayList<PhongChieu>();
 		String sql = "SELECT * FROM PhongChieu";
 		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return dsPhongChieu;
 		
 		try (Statement statement = con.createStatement();
 			 ResultSet rs = statement.executeQuery(sql)) {

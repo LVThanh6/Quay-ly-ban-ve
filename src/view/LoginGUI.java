@@ -74,12 +74,12 @@ public class LoginGUI extends JFrame {
             }
         }
 
-        // Demo fallback để dễ test nếu DB trống
+        // Demo fallback để dễ test nếu DB trống hoặc lỗi kết nối
         if (!success && username.equals("admin") && password.equals("admin")) {
-            userLogin = new NhanVien("admin", "Admin", "admin", "0123", 1000, model.ChucVu.QUAN_LY);
+            userLogin = new NhanVien("admin", "Quản Lý Hệ Thống", "admin", "0123", 1000, model.ChucVu.QUAN_LY);
             success = true;
-        } else if (!success && username.equals("staff") && password.equals("staff")) {
-            userLogin = new NhanVien("staff", "Staff", "staff", "0123", 1000, model.ChucVu.NHAN_VIEN);
+        } else if (!success && username.equals("nhanvien") && password.equals("nhanvien")) {
+            userLogin = new NhanVien("nhanvien", "Nhân Viên Bán Vé", "nhanvien", "0123", 1000, model.ChucVu.NHAN_VIEN);
             success = true;
         }
 

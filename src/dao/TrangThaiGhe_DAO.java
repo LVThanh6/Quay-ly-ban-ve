@@ -17,6 +17,7 @@ public class TrangThaiGhe_DAO {
 		ArrayList<TrangThaiGhe> dsTrangThai = new ArrayList<TrangThaiGhe>();
 		String sql = "SELECT * FROM TrangThaiGhe";
 		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return dsTrangThai;
 		
 		try (Statement statement = con.createStatement();
 			 ResultSet rs = statement.executeQuery(sql)) {
@@ -32,6 +33,35 @@ public class TrangThaiGhe_DAO {
 				
 				TrangThaiGhe ttg = new TrangThaiGhe(ghe, sc, trangThai);
 				dsTrangThai.add(ttg);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsTrangThai;
+	}
+	
+	public ArrayList<TrangThaiGhe> getTrangThaiGheBySuatChieu(String maSuatChieuParam) {
+		ArrayList<TrangThaiGhe> dsTrangThai = new ArrayList<TrangThaiGhe>();
+		String sql = "SELECT * FROM TrangThaiGhe WHERE MaSuatChieu = ?";
+		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return dsTrangThai;
+		
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			stmt.setString(1, maSuatChieuParam);
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					String maGhe = rs.getString("MaGhe");
+					String maSuatChieu = rs.getString("MaSuatChieu");
+					String trangThai = rs.getString("TrangThai");
+					
+					Ghe ghe = new Ghe();
+					ghe.setMaGhe(maGhe);
+					SuatChieu sc = new SuatChieu();
+					sc.setMaSuatChieu(maSuatChieu);
+					
+					TrangThaiGhe ttg = new TrangThaiGhe(ghe, sc, trangThai);
+					dsTrangThai.add(ttg);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

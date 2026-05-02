@@ -29,7 +29,7 @@ public class ChiTietPhieuDat {
     }
 
     public void setGiaTamTinh(double giaTamTinh) {
-        this.giaTamTinh = giaTamTinh;
+        this.giaTamTinh = Math.max(0, giaTamTinh);
     }
 
     public PhieuDatVe getPhieuDatVe() {

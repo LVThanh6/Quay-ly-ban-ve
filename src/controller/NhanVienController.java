@@ -11,10 +11,14 @@ public class NhanVienController {
     // Khai báo các DAO cần thiết
     protected Phim_DAO phimDAO;
     protected Ve_DAO veDAO;
+    protected dao.SuatChieu_DAO suatChieuDAO;
+    protected dao.TrangThaiGhe_DAO trangThaiGheDAO;
     
     public NhanVienController() {
         this.phimDAO = new Phim_DAO();
         this.veDAO = new Ve_DAO();
+        this.suatChieuDAO = new dao.SuatChieu_DAO();
+        this.trangThaiGheDAO = new dao.TrangThaiGhe_DAO();
     }
     
     /**
@@ -35,5 +39,15 @@ public class NhanVienController {
         return phimDAO.getAllPhim();
     }
     
-    // Có thể bổ sung thêm các nghiệp vụ khác của nhân viên
+    public List<model.SuatChieu> getSuatChieuByPhim(String maPhim) {
+        return suatChieuDAO.getSuatChieuByPhim(maPhim);
+    }
+    
+    public List<model.TrangThaiGhe> getTrangThaiGheBySuatChieu(String maSuatChieu) {
+        return trangThaiGheDAO.getTrangThaiGheBySuatChieu(maSuatChieu);
+    }
+    
+    public boolean updateTrangThaiGhe(model.TrangThaiGhe ttg) {
+        return trangThaiGheDAO.updateTrangThai(ttg);
+    }
 }

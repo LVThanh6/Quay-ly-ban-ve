@@ -15,6 +15,7 @@ public class ComboBapNuoc_DAO {
 		ArrayList<ComboBapNuoc> dsCombo = new ArrayList<ComboBapNuoc>();
 		String sql = "SELECT * FROM ComboBapNuoc";
 		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return dsCombo;
 		
 		try (Statement statement = con.createStatement();
 			 ResultSet rs = statement.executeQuery(sql)) {

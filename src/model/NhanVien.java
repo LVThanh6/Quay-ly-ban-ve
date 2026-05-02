@@ -63,7 +63,7 @@ public class NhanVien {
     }
 
     public void setLuongCoBan(double luongCoBan) {
-        this.luongCoBan = luongCoBan;
+        this.luongCoBan = Math.max(0, luongCoBan);
     }
 
     public ChucVu getVaiTro() {

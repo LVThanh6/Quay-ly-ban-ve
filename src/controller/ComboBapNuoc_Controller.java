@@ -15,6 +15,7 @@ public class ComboBapNuoc_Controller implements ActionListener {
 	public ComboBapNuoc_Controller(FrmComboBapNuoc view) {
 		this.view = view;
 		this.dao = new ComboBapNuoc_DAO();
+		this.view.updateTable(this.dao.getAllCombo());
 	}
 
 	@Override

@@ -27,10 +27,11 @@ public abstract class FrmBaseManager extends JFrame {
 
     protected JPanel pnlInput;
     protected JPanel pnlHeader;
+    protected JPanel pnlButtons;
 
     public FrmBaseManager(String title, String[] columnNames) {
         setTitle(title);
-        setSize(900, 600);
+        setSize(1100, 750);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -59,7 +60,7 @@ public abstract class FrmBaseManager extends JFrame {
         pnlInputWrapper.add(pnlInput, BorderLayout.CENTER);
 
         // Buttons
-        JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 0));
+        pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 0));
         pnlButtons.setOpaque(true);
 
         btnThem = createButton("Thêm", new Color(229, 9, 20)); // Netflix Red
@@ -101,19 +102,24 @@ public abstract class FrmBaseManager extends JFrame {
     }
 
     protected JTextField createTextField(String placeholder) {
+        JTextField txt = new JTextField();
+        txt.setPreferredSize(new java.awt.Dimension(150, 35));
+        addControl(placeholder, txt);
+        return txt;
+    }
+
+    protected void addControl(String labelText, javax.swing.JComponent component) {
         JPanel pnlWrapper = new JPanel(new BorderLayout());
         pnlWrapper.setOpaque(true);
-        JLabel lbl = new JLabel(placeholder);
+        JLabel lbl = new JLabel(labelText);
         lbl.setForeground(new Color(80, 80, 80));
         lbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 
-        JTextField txt = new JTextField();
-        txt.setPreferredSize(new java.awt.Dimension(150, 35));
-
+        component.setPreferredSize(new java.awt.Dimension(150, 35));
+        
         pnlWrapper.add(lbl, BorderLayout.NORTH);
-        pnlWrapper.add(txt, BorderLayout.CENTER);
+        pnlWrapper.add(component, BorderLayout.CENTER);
         pnlInput.add(pnlWrapper);
-        return txt;
     }
 
     private JButton createButton(String text, Color bgColor) {
@@ -127,6 +133,13 @@ public abstract class FrmBaseManager extends JFrame {
     }
 
     // Getters for controllers
+    public void setReadOnly(boolean readOnly) {
+        btnThem.setVisible(!readOnly);
+        btnSua.setVisible(!readOnly);
+        btnXoa.setVisible(!readOnly);
+        // Nút Xóa trắng có thể giữ lại để lọc hoặc làm sạch ô tìm kiếm
+    }
+
     public JButton getBtnThem() {
         return btnThem;
     }

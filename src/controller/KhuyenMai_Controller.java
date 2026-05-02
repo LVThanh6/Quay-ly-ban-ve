@@ -15,6 +15,7 @@ public class KhuyenMai_Controller implements ActionListener {
 	public KhuyenMai_Controller(FrmKhuyenMai view) {
 		this.view = view;
 		this.dao = new KhuyenMai_DAO();
+		this.view.updateTable(this.dao.getAllKhuyenMai());
 	}
 
 	@Override
@@ -35,15 +36,22 @@ public class KhuyenMai_Controller implements ActionListener {
 		String maKM = view.getTxtMaKhuyenMai().getText().trim();
 		String tenKM = view.getTxtTenKhuyenMai().getText().trim();
 		String hinhThucGiamStr = view.getTxtHinhThucGiam().getText().trim();
+		String ttttStr = view.getTxtTongTienToiThieu().getText().trim();
 
-		if (maKM.isEmpty() || tenKM.isEmpty() || hinhThucGiamStr.isEmpty()) {
+		if (maKM.isEmpty() || tenKM.isEmpty() || hinhThucGiamStr.isEmpty() || ttttStr.isEmpty()) {
 			JOptionPane.showMessageDialog(view, "Vui lòng nhập đầy đủ thông tin!");
 			return;
 		}
 
 		try {
 			double hinhThucGiam = Double.parseDouble(hinhThucGiamStr);
-			KhuyenMai km = new KhuyenMai(maKM, tenKM, hinhThucGiam);
+			double tttt = Double.parseDouble(ttttStr);
+			
+			if (hinhThucGiam < 0 || tttt < 0) {
+				JOptionPane.showMessageDialog(view, "Mức giảm và tổng tiền tối thiểu không được âm!");
+				return;
+			}
+			KhuyenMai km = new KhuyenMai(maKM, tenKM, hinhThucGiam, tttt);
 			
 			if (dao.addKhuyenMai(km)) {
 				view.updateTable(dao.getAllKhuyenMai());
@@ -61,15 +69,22 @@ public class KhuyenMai_Controller implements ActionListener {
 		String maKM = view.getTxtMaKhuyenMai().getText().trim();
 		String tenKM = view.getTxtTenKhuyenMai().getText().trim();
 		String hinhThucGiamStr = view.getTxtHinhThucGiam().getText().trim();
+		String ttttStr = view.getTxtTongTienToiThieu().getText().trim();
 
-		if (maKM.isEmpty() || tenKM.isEmpty() || hinhThucGiamStr.isEmpty()) {
+		if (maKM.isEmpty() || tenKM.isEmpty() || hinhThucGiamStr.isEmpty() || ttttStr.isEmpty()) {
 			JOptionPane.showMessageDialog(view, "Vui lòng nhập đầy đủ thông tin!");
 			return;
 		}
 
 		try {
 			double hinhThucGiam = Double.parseDouble(hinhThucGiamStr);
-			KhuyenMai km = new KhuyenMai(maKM, tenKM, hinhThucGiam);
+			double tttt = Double.parseDouble(ttttStr);
+			
+			if (hinhThucGiam < 0 || tttt < 0) {
+				JOptionPane.showMessageDialog(view, "Mức giảm và tổng tiền tối thiểu không được âm!");
+				return;
+			}
+			KhuyenMai km = new KhuyenMai(maKM, tenKM, hinhThucGiam, tttt);
 			
 			if (dao.updateKhuyenMai(km)) {
 				view.updateTable(dao.getAllKhuyenMai());
@@ -107,6 +122,7 @@ public class KhuyenMai_Controller implements ActionListener {
 		view.getTxtMaKhuyenMai().setText("");
 		view.getTxtTenKhuyenMai().setText("");
 		view.getTxtHinhThucGiam().setText("");
+		view.getTxtTongTienToiThieu().setText("");
 		
 		view.getTxtMaKhuyenMai().requestFocus();
 	}

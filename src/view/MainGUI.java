@@ -37,6 +37,8 @@ public class MainGUI extends JFrame {
     private JPanel pnlMenuSale;
     private JPanel pnlMenuAdmin;
 
+    private FrmQuanLyVe frmQuanLyVe;
+
     // Map chứa các nút menu để thao tác chuyển trang
     private Map<String, JButton> menuButtons = new HashMap<>();
 
@@ -77,15 +79,20 @@ public class MainGUI extends JFrame {
         pnlSidebar.setPreferredSize(new Dimension(250, 0));
         pnlSidebar.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(200, 200, 200)));
 
-        // Logo
-        JPanel pnlTop = new JPanel(new GridLayout(2, 1));
+        // Logo & User Info
+        JPanel pnlTop = new JPanel(new GridLayout(3, 1, 0, 5));
         pnlTop.setOpaque(false);
-        pnlTop.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        pnlTop.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         JLabel lblLogo = new JLabel("GRAND CINEMA");
         lblLogo.setForeground(new Color(229, 9, 20));
         lblLogo.setFont(new Font("Segoe UI", Font.BOLD, 22));
         pnlTop.add(lblLogo);
+
+        JLabel lblUser = new JLabel("👤 " + currentUser.getHoTen());
+        lblUser.setForeground(new Color(30, 30, 30));
+        lblUser.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        pnlTop.add(lblUser);
 
         JLabel lblRole = new JLabel(
                 "Vai trò: " + (currentUser.getVaiTro() == ChucVu.QUAN_LY ? "Quản Lý" : "Nhân Viên"));
@@ -101,10 +108,10 @@ public class MainGUI extends JFrame {
 
         // Nhóm 1: Bán Hàng & CRM
         pnlMenuSale = createMenuGroup("BÁN HÀNG & CRM");
-        addMenuItem(pnlMenuSale, "Bán Vé", "BanVe");
-        addMenuItem(pnlMenuSale, "Combo Bắp Nước", "Combo");
+        addMenuItem(pnlMenuSale, "Đặt Vé", "DatVe");
+        addMenuItem(pnlMenuSale, "Thanh Toán / Điểm Bán", "BanVe");
+        addMenuItem(pnlMenuSale, "Quản Lý Vé & In Ấn", "QuanLyVe");
         addMenuItem(pnlMenuSale, "Khách Hàng", "KhachHang");
-        addMenuItem(pnlMenuSale, "Thuê Dịch Vụ", "Thue");
         pnlMenuContainer.add(pnlMenuSale);
 
         // Nhóm 2: Quản Trị
@@ -112,8 +119,8 @@ public class MainGUI extends JFrame {
         addMenuItem(pnlMenuAdmin, "Danh mục Phim", "Phim");
         addMenuItem(pnlMenuAdmin, "Suất Chiếu", "SuatChieu");
         addMenuItem(pnlMenuAdmin, "Phòng Chiếu", "PhongChieu");
-        addMenuItem(pnlMenuAdmin, "Ghế", "Ghe");
-        addMenuItem(pnlMenuAdmin, "Trạng Thái Ghế", "TrangThaiGhe");
+        addMenuItem(pnlMenuAdmin, "Combo Bắp Nước", "Combo");
+        addMenuItem(pnlMenuAdmin, "Thuê Dịch Vụ", "Thue");
         addMenuItem(pnlMenuAdmin, "Khuyến Mãi", "KhuyenMai");
         addMenuItem(pnlMenuAdmin, "Nhân Sự", "NhanVien");
         pnlMenuContainer.add(pnlMenuAdmin);
@@ -125,14 +132,15 @@ public class MainGUI extends JFrame {
         pnlSidebar.add(scrollMenu, BorderLayout.CENTER);
 
         // Nút Đăng xuất
-        JPanel pnlBottom = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        JPanel pnlBottom = new JPanel(new BorderLayout());
         pnlBottom.setOpaque(false);
+        pnlBottom.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
         JButton btnLogout = createMenuButton("Đăng Xuất");
         btnLogout.addActionListener(e -> {
             this.dispose();
             LoginGUI.start();
         });
-        pnlBottom.add(btnLogout);
+        pnlBottom.add(btnLogout, BorderLayout.CENTER);
         pnlSidebar.add(pnlBottom, BorderLayout.SOUTH);
 
         add(pnlSidebar, BorderLayout.WEST);
@@ -146,7 +154,7 @@ public class MainGUI extends JFrame {
         JLabel lblTitle = new JLabel(title);
         lblTitle.setForeground(new Color(120, 120, 120));
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        lblTitle.setBorder(BorderFactory.createEmptyBorder(15, 20, 10, 0));
+        lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 20, 5, 0));
 
         JPanel pnlWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pnlWrapper.setOpaque(false);
@@ -160,11 +168,13 @@ public class MainGUI extends JFrame {
         JButton btn = createMenuButton(text);
         btn.addActionListener(e -> cardLayout.show(pnlContent, cardName));
 
-        JPanel pnlWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        pnlWrapper.setOpaque(false);
-        pnlWrapper.add(btn);
+        // Use a container with top/bottom padding instead of FlowLayout
+        JPanel pnlItem = new JPanel(new BorderLayout());
+        pnlItem.setOpaque(false);
+        pnlItem.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 10));
+        pnlItem.add(btn, BorderLayout.CENTER);
 
-        parent.add(pnlWrapper);
+        parent.add(pnlItem);
         menuButtons.put(cardName, btn);
     }
 
@@ -172,21 +182,31 @@ public class MainGUI extends JFrame {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         btn.setForeground(Color.BLACK);
-        btn.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 20));
+        btn.setBackground(Color.WHITE);
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
+            BorderFactory.createEmptyBorder(5, 15, 5, 10)
+        ));
         btn.setHorizontalAlignment(SwingConstants.LEFT);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setPreferredSize(new Dimension(230, 40));
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
 
         btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn.setBackground(new Color(230, 230, 230));
-                btn.setForeground(Color.BLACK);
+                btn.setBackground(new Color(245, 245, 245));
+                btn.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(229, 9, 20), 1),
+                    BorderFactory.createEmptyBorder(5, 15, 5, 10)
+                ));
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn.setBackground(null);
-                btn.setForeground(Color.BLACK);
+                btn.setBackground(Color.WHITE);
+                btn.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
+                    BorderFactory.createEmptyBorder(5, 15, 5, 10)
+                ));
             }
         });
 
@@ -195,7 +215,11 @@ public class MainGUI extends JFrame {
 
     private void setupViews() {
         // Nhóm Bán Hàng
-        pnlContent.add(new FrmBanVe(baseController).getContentPane(), "BanVe");
+        pnlContent.add(new FrmDatVe(baseController, currentUser).getContentPane(), "DatVe");
+        pnlContent.add(new FrmBanVe(baseController, currentUser).getContentPane(), "BanVe");
+        
+        frmQuanLyVe = new FrmQuanLyVe();
+        pnlContent.add(frmQuanLyVe, "QuanLyVe");
 
         FrmComboBapNuoc frmCombo = new FrmComboBapNuoc();
         frmCombo.setController(new ComboBapNuoc_Controller(frmCombo));
@@ -211,51 +235,61 @@ public class MainGUI extends JFrame {
 
         // Nhóm Quản Trị (Chỉ tạo nếu là quản lý để tiết kiệm bộ nhớ, hoặc tạo hết nhưng
         // cấm click)
-        if (currentUser.getVaiTro() == ChucVu.QUAN_LY) {
-            pnlContent.add(new FrmQuanLyPhim((QuanLyController) baseController).getContentPane(), "Phim");
+        // Nhóm Quản Trị
+        boolean isAdmin = (currentUser.getVaiTro() == ChucVu.QUAN_LY);
 
-            FrmSuatChieu frmSC = new FrmSuatChieu();
-            frmSC.setController(new SuatChieu_Controller(frmSC));
-            pnlContent.add(frmSC.getContentPane(), "SuatChieu");
+        FrmQuanLyPhim frmPhim = new FrmQuanLyPhim(baseController);
+        if (!isAdmin) frmPhim.setReadOnly(true);
+        pnlContent.add(frmPhim.getContentPane(), "Phim");
 
-            FrmPhongChieu frmPC = new FrmPhongChieu();
-            frmPC.setController(new PhongChieu_Controller(frmPC));
-            pnlContent.add(frmPC.getContentPane(), "PhongChieu");
+        FrmSuatChieu frmSC = new FrmSuatChieu();
+        frmSC.setController(new SuatChieu_Controller(frmSC));
+        if (!isAdmin) frmSC.setReadOnly(true);
+        pnlContent.add(frmSC.getContentPane(), "SuatChieu");
 
-            FrmGhe frmGhe = new FrmGhe();
-            frmGhe.setController(new Ghe_Controller(frmGhe));
-            pnlContent.add(frmGhe.getContentPane(), "Ghe");
+        FrmPhongChieu frmPC = new FrmPhongChieu();
+        frmPC.setController(new PhongChieu_Controller(frmPC));
+        if (!isAdmin) frmPC.setReadOnly(true);
+        pnlContent.add(frmPC.getContentPane(), "PhongChieu");
 
-            FrmTrangThaiGhe frmTTG = new FrmTrangThaiGhe();
-            frmTTG.setController(new TrangThaiGhe_Controller(frmTTG));
-            pnlContent.add(frmTTG.getContentPane(), "TrangThaiGhe");
+        FrmKhuyenMai frmKM = new FrmKhuyenMai();
+        frmKM.setController(new KhuyenMai_Controller(frmKM));
+        if (!isAdmin) frmKM.setReadOnly(true);
+        pnlContent.add(frmKM.getContentPane(), "KhuyenMai");
 
-            FrmKhuyenMai frmKM = new FrmKhuyenMai();
-            frmKM.setController(new KhuyenMai_Controller(frmKM));
-            pnlContent.add(frmKM.getContentPane(), "KhuyenMai");
-
+        if (isAdmin) {
             FrmNhanVien frmNV = new FrmNhanVien();
             frmNV.setController(new NhanVien_Controller(frmNV));
             pnlContent.add(frmNV.getContentPane(), "NhanVien");
         } else {
-            // Thêm panel trống thông báo cho các tab quản trị nếu nhân viên cố gắng truy
-            // cập
+            // Đối với nhân viên, tab Nhân Sự vẫn bị khóa hoàn toàn
             JPanel pnlLock = new JPanel(new BorderLayout());
-            JLabel lblLock = new JLabel("TÍNH NĂNG NÀY CHỈ DÀNH CHO QUẢN LÝ", SwingConstants.CENTER);
+            JLabel lblLock = new JLabel("BẠN KHÔNG CÓ QUYỀN TRUY CẬP MỤC NHÂN SỰ", SwingConstants.CENTER);
             lblLock.setForeground(Color.RED);
-            lblLock.setFont(new Font("Segoe UI", Font.BOLD, 24));
+            lblLock.setFont(new Font("Segoe UI", Font.BOLD, 18));
             pnlLock.add(lblLock, BorderLayout.CENTER);
-
-            String[] adminCards = { "Phim", "SuatChieu", "PhongChieu", "Ghe", "TrangThaiGhe", "KhuyenMai", "NhanVien" };
-            for (String card : adminCards) {
-                pnlContent.add(pnlLock, card);
-            }
+            pnlContent.add(pnlLock, "NhanVien");
         }
     }
 
     private void applyRBAC() {
         if (currentUser.getVaiTro() == ChucVu.NHAN_VIEN) {
-            pnlMenuAdmin.setVisible(false); // Ẩn hoàn toàn nhóm menu Quản trị
+            // Nhân viên vẫn thấy menu Quản trị nhưng bị giới hạn mục Nhân Sự
+            if (menuButtons.containsKey("NhanVien")) {
+                menuButtons.get("NhanVien").getParent().setVisible(false);
+            }
+        }
+    }
+
+    public void switchToBanVe() {
+        cardLayout.show(pnlContent, "BanVe");
+        // Kích hoạt màu nền cho nút menu nếu cần
+    }
+
+    public void switchToQuanLyVe(String keyword) {
+        cardLayout.show(pnlContent, "QuanLyVe");
+        if (frmQuanLyVe != null) {
+            frmQuanLyVe.searchAndSelect(keyword);
         }
     }
 }

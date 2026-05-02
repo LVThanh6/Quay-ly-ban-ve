@@ -17,6 +17,7 @@ public class Phim_DAO {
 		ArrayList<Phim> dsPhim = new ArrayList<Phim>();
 		String sql = "SELECT * FROM Phim";
 		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return dsPhim;
 		
 		try (Statement statement = con.createStatement();
 			 ResultSet rs = statement.executeQuery(sql)) {

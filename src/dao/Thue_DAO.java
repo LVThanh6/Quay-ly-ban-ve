@@ -13,17 +13,21 @@ import model.Thue;
 public class Thue_DAO {
 	public ArrayList<Thue> getAllThue() {
 		ArrayList<Thue> dsThue = new ArrayList<Thue>();
-		String sql = "SELECT * FROM Thue";
+		String sql = "SELECT * FROM DanhMucThue";
 		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) {
+			System.err.println("Lỗi: Kết nối Database trống (null). Vui lòng kiểm tra lại cấu hình kết nối!");
+			return dsThue;
+		}
 		
 		try (Statement statement = con.createStatement();
 			 ResultSet rs = statement.executeQuery(sql)) {
 			while (rs.next()) {
-				String maThue = rs.getString("MaThue");
-				String tenThue = rs.getString("TenThue");
-				double mucThue = rs.getDouble("MucThue");
+				String maLoaiThue = rs.getString("MaLoaiThue");
+				String tenLoaiThue = rs.getString("TenLoaiThue");
+				double mucThue = rs.getDouble("MucThuePhanTram");
 				
-				Thue t = new Thue(maThue, tenThue, mucThue);
+				Thue t = new Thue(maLoaiThue, tenLoaiThue, mucThue);
 				dsThue.add(t);
 			}
 		} catch (SQLException e) {
@@ -33,12 +37,12 @@ public class Thue_DAO {
 	}
 	
 	public boolean addThue(Thue t) {
-		String sql = "INSERT INTO Thue (MaThue, TenThue, MucThue) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO DanhMucThue (MaLoaiThue, TenLoaiThue, MucThuePhanTram) VALUES (?, ?, ?)";
 		Connection con = DBConnection.getInstance().getCon();
 		try(PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.setString(1, t.getMaThue());
-			stmt.setString(2, t.getTenThue());
-			stmt.setDouble(3, t.getMucThue());
+			stmt.setString(1, t.getMaLoaiThue());
+			stmt.setString(2, t.getTenLoaiThue());
+			stmt.setDouble(3, t.getMucThuePhanTram());
 			int n = stmt.executeUpdate();
 			return n > 0;
 		} catch (SQLException e) {
@@ -48,12 +52,12 @@ public class Thue_DAO {
 	}
 	
 	public boolean updateThue(Thue t) {
-		String sql = "UPDATE Thue SET TenThue = ?, MucThue = ? WHERE MaThue = ?";
+		String sql = "UPDATE DanhMucThue SET TenLoaiThue = ?, MucThuePhanTram = ? WHERE MaLoaiThue = ?";
 		Connection con = DBConnection.getInstance().getCon();
 		try(PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.setString(1, t.getTenThue());
-			stmt.setDouble(2, t.getMucThue());
-			stmt.setString(3, t.getMaThue());
+			stmt.setString(1, t.getTenLoaiThue());
+			stmt.setDouble(2, t.getMucThuePhanTram());
+			stmt.setString(3, t.getMaLoaiThue());
 			int n = stmt.executeUpdate();
 			return n > 0;
 		} catch (SQLException e) {
@@ -62,11 +66,11 @@ public class Thue_DAO {
 		}
 	}
 
-	public boolean deleteThue(String maThue) {
-		String sql = "DELETE FROM Thue WHERE MaThue = ?";
+	public boolean deleteThue(String maLoaiThue) {
+		String sql = "DELETE FROM DanhMucThue WHERE MaLoaiThue = ?";
 		Connection con = DBConnection.getInstance().getCon();
 		try(PreparedStatement stmt = con.prepareStatement(sql)) {
-			stmt.setString(1, maThue);
+			stmt.setString(1, maLoaiThue);
 			int n = stmt.executeUpdate();
 			return n > 0;
 		} catch (SQLException e) {

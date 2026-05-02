@@ -16,6 +16,7 @@ public class NhanVien_DAO {
 		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
 		String sql = "SELECT * FROM NhanVien";
 		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return dsNhanVien;
 		
 		try (Statement statement = con.createStatement();
 			 ResultSet rs = statement.executeQuery(sql)) {
@@ -26,13 +27,12 @@ public class NhanVien_DAO {
 				String matKhau = rs.getString("MatKhau");
 				Double luongCoBan = rs.getDouble("LuongCoBan");
 				String vaiTro = rs.getString("VaiTro");
-				ChucVu vaiTroEnum = null;
-				try {
-					vaiTroEnum = model.ChucVu.valueOf(vaiTro);
-				} catch (Exception e) {
-					// Fallback or handle differently if needed. Assuming DB matches Enum
-					if(vaiTro != null && vaiTro.toLowerCase().contains("quản lý")) vaiTroEnum = model.ChucVu.QUAN_LY;
-					else vaiTroEnum = model.ChucVu.NHAN_VIEN;
+				ChucVu vaiTroEnum = ChucVu.NHAN_VIEN;
+				if (vaiTro != null) {
+					String vtLower = vaiTro.toLowerCase();
+					if (vtLower.contains("quản lý") || vtLower.contains("quan ly") || vtLower.contains("admin") || vtLower.equals("quan_ly")) {
+						vaiTroEnum = ChucVu.QUAN_LY;
+					}
 				}
 				
 				NhanVien nv = new NhanVien(maNhanVien, hoTen, matKhau, sdt, luongCoBan, vaiTroEnum);

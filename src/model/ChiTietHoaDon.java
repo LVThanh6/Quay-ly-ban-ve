@@ -1,59 +1,35 @@
 package model;
 
 public class ChiTietHoaDon {
-    private String maThanhToan;
-    private String phuongThucThanhToan;
+    private String maChiTietHoaDon;
     private HoaDon hoaDon;
-    private SanPham sanPham; // Co the la Ve hoac ComboBapNuoc
+    private SanPham sanPham;
+    private int soLuongMuc;
+    private double thanhTien;
 
     public ChiTietHoaDon() {
     }
 
-    public ChiTietHoaDon(String maThanhToan, String phuongThucThanhToan, HoaDon hoaDon, SanPham sanPham) {
-        this.maThanhToan = maThanhToan;
-        this.phuongThucThanhToan = phuongThucThanhToan;
+    public ChiTietHoaDon(String maChiTietHoaDon, HoaDon hoaDon, SanPham sanPham, int soLuongMuc, double thanhTien) {
+        this.maChiTietHoaDon = maChiTietHoaDon;
         this.hoaDon = hoaDon;
         this.sanPham = sanPham;
+        this.soLuongMuc = soLuongMuc;
+        this.thanhTien = thanhTien;
     }
 
-    public String getMaThanhToan() {
-        return maThanhToan;
-    }
+    public String getMaChiTietHoaDon() { return maChiTietHoaDon; }
+    public void setMaChiTietHoaDon(String maChiTietHoaDon) { this.maChiTietHoaDon = maChiTietHoaDon; }
 
-    public void setMaThanhToan(String maThanhToan) {
-        this.maThanhToan = maThanhToan;
-    }
+    public HoaDon getHoaDon() { return hoaDon; }
+    public void setHoaDon(HoaDon hoaDon) { this.hoaDon = hoaDon; }
 
-    public String getPhuongThucThanhToan() {
-        return phuongThucThanhToan;
-    }
+    public SanPham getSanPham() { return sanPham; }
+    public void setSanPham(SanPham sanPham) { this.sanPham = sanPham; }
 
-    public void setPhuongThucThanhToan(String phuongThucThanhToan) {
-        this.phuongThucThanhToan = phuongThucThanhToan;
-    }
+    public int getSoLuongMuc() { return soLuongMuc; }
+    public void setSoLuongMuc(int soLuongMuc) { this.soLuongMuc = Math.max(0, soLuongMuc); }
 
-    public HoaDon getHoaDon() {
-        return hoaDon;
-    }
-
-    public void setHoaDon(HoaDon hoaDon) {
-        this.hoaDon = hoaDon;
-    }
-
-    public SanPham getSanPham() {
-        return sanPham;
-    }
-
-    public void setSanPham(SanPham sanPham) {
-        this.sanPham = sanPham;
-    }
-
-    public boolean xyLyThanhToan() {
-        // Logic xu ly, ket noi API
-        return true;
-    }
-
-    public void xacNhanThanhToan() {
-        // update trang thai
-    }
+    public double getThanhTien() { return thanhTien; }
+    public void setThanhTien(double thanhTien) { this.thanhTien = Math.max(0, thanhTien); }
 }

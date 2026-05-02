@@ -48,7 +48,11 @@ public class KhachHang_DAO {
 			
 			stmt.setString(1, kh.getsDT());
 			stmt.setString(2, kh.getHoTen());
-			stmt.setDate(3, new java.sql.Date(kh.getNgaySinh().getTime()));
+			if (kh.getNgaySinh() != null) {
+				stmt.setDate(3, new java.sql.Date(kh.getNgaySinh().getTime()));
+			} else {
+				stmt.setNull(3, java.sql.Types.DATE);
+			}
 			int n = stmt.executeUpdate();
 			return n > 0;
 		} catch (SQLException e) {
@@ -63,7 +67,11 @@ public class KhachHang_DAO {
 		try (PreparedStatement stmt = con.prepareStatement(sql)) {
 			
 			stmt.setString(1, kh.getHoTen());
-			stmt.setDate(2, new java.sql.Date(kh.getNgaySinh().getTime()));
+			if (kh.getNgaySinh() != null) {
+				stmt.setDate(2, new java.sql.Date(kh.getNgaySinh().getTime()));
+			} else {
+				stmt.setNull(2, java.sql.Types.DATE);
+			}
 			stmt.setString(3, kh.getsDT());
 			int n = stmt.executeUpdate();
 			return n > 0;
@@ -71,6 +79,23 @@ public class KhachHang_DAO {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public KhachHang getKhachHangBySdt(String sdt) {
+		String sql = "SELECT * FROM KhachHang WHERE SDT = ?";
+		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return null;
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			stmt.setString(1, sdt);
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					return new KhachHang(rs.getString("SDT"), rs.getString("hoTen"), rs.getDate("ngaySinh"));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public boolean deleteKhachHang(String sdt) {

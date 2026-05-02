@@ -35,7 +35,7 @@ public abstract class SanPham {
     }
 
     public void setGiaBanCoBan(double giaBanCoBan) {
-        this.giaBanCoBan = giaBanCoBan;
+        this.giaBanCoBan = Math.max(0, giaBanCoBan);
     }
 
     // Phương thức trừu tượng nếu cần

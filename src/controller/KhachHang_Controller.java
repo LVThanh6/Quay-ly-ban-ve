@@ -19,6 +19,7 @@ public class KhachHang_Controller implements ActionListener {
 	public KhachHang_Controller(FrmKhachHang view) {
 		this.view = view;
 		this.dao = new KhachHang_DAO();
+		this.view.updateTable(this.dao.getAllKhachHang());
 	}
 
 	@Override

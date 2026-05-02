@@ -37,9 +37,11 @@ public class FrmThue extends FrmBaseManager {
     public void updateTable(List<Thue> list) {
         tableModel.setRowCount(0);
         for (Thue item : list) {
-            // FIXME: Ánh xạ đúng thuộc tính model vào mảng Object.
-            Object[] row = new Object[3];
-            for (int i=0; i<3; i++) row[i] = item.toString(); 
+            Object[] row = new Object[] {
+                item.getMaLoaiThue(),
+                item.getTenLoaiThue(),
+                item.getMucThuePhanTram()
+            };
             tableModel.addRow(row);
         }
     }

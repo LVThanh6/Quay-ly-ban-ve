@@ -12,6 +12,7 @@ import model.Ve;
 import model.TrangThaiGhe;
 import model.SuatChieu;
 import model.Ghe;
+import model.PhongChieu;
 
 public class Ve_DAO {
 	public ArrayList<Ve> getAllVe() {
@@ -99,5 +100,50 @@ public class Ve_DAO {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	/**
+	 * Tìm kiếm vé dựa trên nhiều yếu tố (Tên phim, Mã ghế, SĐT, Ngày đặt...)
+	 * Chỉ cần thỏa 1 trong các điều kiện (OR)
+	 */
+	public ArrayList<model.VeFullInfo> searchTickets(String keyword) {
+		ArrayList<model.VeFullInfo> list = new ArrayList<>();
+		String sql = "SELECT v.*, sc.ThoiGianKhoiChieu, p.TenPhim, sc.MaPhongChieu, " +
+		             "pdv.SDTKhachHang, pdv.NgayDat, pdv.MaPhieuDat " +
+		             "FROM Ve v " +
+		             "JOIN SuatChieu sc ON v.MaSuatChieu = sc.MaSuatChieu " +
+		             "JOIN Phim p ON sc.MaPhim = p.MaPhim " +
+		             "JOIN ChiTietPhieuDat ctpd ON v.MaSanPham = ctpd.MaVe " +
+		             "JOIN PhieuDatVe pdv ON ctpd.MaPhieuDat = pdv.MaPhieuDat " +
+		             "WHERE p.TenPhim LIKE ? OR p.MaPhim LIKE ? OR pdv.SDTKhachHang LIKE ? " +
+		             "OR v.MaGhe LIKE ? OR v.MaSanPham LIKE ? OR pdv.MaPhieuDat LIKE ?";
+		
+		Connection con = DBConnection.getInstance().getCon();
+		if (con == null) return list;
+		
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			String kw = "%" + keyword + "%";
+			for(int i=1; i<=6; i++) stmt.setString(i, kw);
+			
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					model.VeFullInfo info = new model.VeFullInfo();
+					info.setMaVe(rs.getString("MaSanPham"));
+					info.setMaGhe(rs.getString("MaGhe"));
+					info.setTenPhim(rs.getString("TenPhim"));
+					info.setMaPhong(rs.getString("MaPhongChieu"));
+					info.setThoiGianChieu(rs.getTimestamp("ThoiGianKhoiChieu").toLocalDateTime());
+					info.setSdtKhach(rs.getString("SDTKhachHang"));
+					info.setNgayDat(rs.getTimestamp("NgayDat") != null ? rs.getTimestamp("NgayDat").toLocalDateTime() : null);
+					info.setTrangThai(rs.getString("TrangThai"));
+					info.setMaPhieuDat(rs.getString("MaPhieuDat"));
+					info.setGiaVe(rs.getDouble("GiaVeThucTe"));
+					list.add(info);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

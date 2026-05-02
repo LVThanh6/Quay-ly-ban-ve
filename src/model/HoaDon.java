@@ -9,21 +9,26 @@ public class HoaDon {
     private Date thoiGianTao;
     private NhanVien nhanVien;
     private KhachHang khachHang;
-    private KhuyenMai khuyenMai; // có thể null nếu k áp dụng
-    private Thue thue;
+    private KhuyenMai khuyenMai;
+    private PhieuDatVe phieuDatVe;
+    private List<Thue> danhSachThue;
     private List<ChiTietHoaDon> chiTietHoaDons;
+    private double tongTienGoc;
+    private double tongTienThue;
+    private double tongThanhToan;
 
     public HoaDon() {
         this.chiTietHoaDons = new ArrayList<>();
     }
 
-    public HoaDon(String maHoaDon, Date thoiGianTao, NhanVien nhanVien, KhachHang khachHang, KhuyenMai khuyenMai, Thue thue) {
+    public HoaDon(String maHoaDon, Date thoiGianTao, NhanVien nhanVien, KhachHang khachHang, KhuyenMai khuyenMai, PhieuDatVe phieuDatVe) {
         this.maHoaDon = maHoaDon;
         this.thoiGianTao = thoiGianTao;
         this.nhanVien = nhanVien;
         this.khachHang = khachHang;
         this.khuyenMai = khuyenMai;
-        this.thue = thue;
+        this.phieuDatVe = phieuDatVe;
+        this.danhSachThue = new ArrayList<>();
         this.chiTietHoaDons = new ArrayList<>();
     }
 
@@ -42,8 +47,20 @@ public class HoaDon {
     public KhuyenMai getKhuyenMai() { return khuyenMai; }
     public void setKhuyenMai(KhuyenMai khuyenMai) { this.khuyenMai = khuyenMai; }
 
-    public Thue getThue() { return thue; }
-    public void setThue(Thue thue) { this.thue = thue; }
+    public PhieuDatVe getPhieuDatVe() { return phieuDatVe; }
+    public void setPhieuDatVe(PhieuDatVe phieuDatVe) { this.phieuDatVe = phieuDatVe; }
+
+    public List<Thue> getDanhSachThue() { return danhSachThue; }
+    public void setDanhSachThue(List<Thue> danhSachThue) { this.danhSachThue = danhSachThue; }
+
+    public double getTongTienGoc() { return tongTienGoc; }
+    public void setTongTienGoc(double tongTienGoc) { this.tongTienGoc = Math.max(0, tongTienGoc); }
+
+    public double getTongTienThue() { return tongTienThue; }
+    public void setTongTienThue(double tongTienThue) { this.tongTienThue = Math.max(0, tongTienThue); }
+
+    public double getTongThanhToan() { return tongThanhToan; }
+    public void setTongThanhToan(double tongThanhToan) { this.tongThanhToan = Math.max(0, tongThanhToan); }
 
     public List<ChiTietHoaDon> getChiTietHoaDons() { return chiTietHoaDons; }
     public void setChiTietHoaDons(List<ChiTietHoaDon> chiTietHoaDons) { this.chiTietHoaDons = chiTietHoaDons; }
@@ -58,21 +75,24 @@ public class HoaDon {
     }
 
     public double tinhTongTien() {
-        double tong = 0;
+        this.tongTienGoc = 0;
         for(ChiTietHoaDon ct : chiTietHoaDons) {
-            tong += ct.getSanPham().tinhGiaThucTe();
+            this.tongTienGoc += ct.getThanhTien();
         }
         
-        // Phụ phí Thuế
-        if(thue != null) {
-            tong = tong + (tong * thue.getMucThue());
+        this.tongTienThue = 0;
+        if(danhSachThue != null) {
+            for(Thue t : danhSachThue) {
+                this.tongTienThue += this.tongTienGoc * t.getHeSoThue();
+            }
         }
         
-        // Giảm trừ Khuyến mãi (Giả sử giảm chiết khấu %)
+        double discount = 0;
         if(khuyenMai != null) {
-            tong = tong - (tong * khuyenMai.getHinhThucGiam());
+            discount = this.tongTienGoc * khuyenMai.getHinhThucGiam();
         }
         
-        return tong;
+        this.tongThanhToan = this.tongTienGoc + this.tongTienThue - discount;
+        return this.tongThanhToan;
     }
 }
